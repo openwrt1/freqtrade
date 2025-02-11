@@ -33,6 +33,10 @@ class ExchangeWS:
         self._thread.start()
         self.__cleanup_called = False
 
+    # 添加日志记录，确认代理配置
+        logger.info(f"CCXT object proxies: {self._ccxt_object.proxies}")
+
+
     def _start_forever(self) -> None:
         self._loop = asyncio.new_event_loop()
         try:

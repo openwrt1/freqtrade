@@ -3,8 +3,8 @@
 """
 This module manage Telegram communication
 """
-
 import asyncio
+import importlib.util
 import json
 import logging
 import re
@@ -19,6 +19,7 @@ from math import isnan
 from threading import Thread
 from typing import Any, Literal
 
+# import httpx
 from tabulate import tabulate
 from telegram import (
     CallbackQuery,
@@ -30,8 +31,15 @@ from telegram import (
 )
 from telegram.constants import MessageLimit, ParseMode
 from telegram.error import BadRequest, NetworkError, TelegramError
-from telegram.ext import Application, CallbackContext, CallbackQueryHandler, CommandHandler
+from telegram.ext import (
+    Application,
+    ApplicationBuilder,
+    CallbackContext,
+    CallbackQueryHandler,
+    CommandHandler,
+)
 from telegram.helpers import escape_markdown
+from telegram.request import HTTPXRequest
 
 from freqtrade.__init__ import __version__
 from freqtrade.constants import DUST_PER_COIN, Config
@@ -54,7 +62,14 @@ from freqtrade.util import (
 MAX_MESSAGE_LENGTH = MessageLimit.MAX_TEXT_LENGTH
 
 
+# logger = logging.getLogger(__name__)
+# 配置日志记录器
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+# 配置 telegram 模块的日志记录器
+telegram_logger = logging.getLogger('telegram')
+telegram_logger.setLevel(logging.DEBUG)
 
 logger.debug("Included module rpc.telegram ...")
 
@@ -238,8 +253,57 @@ class Telegram(RPCHandler):
                 self._keyboard = cust_keyboard
                 logger.info(f"using custom keyboard from config.json: {self._keyboard}")
 
+    # def _init_telegram_app(self):
+    #     proxy_url = self._config["telegram"].get("httpsProxy")
+    #     if proxy_url:
+    #         logger.info(f"Using proxy: {proxy_url}")
+    #         proxies = {
+    #             "http://": proxy_url,
+    #             "https://": proxy_url,
+    #             "all://": proxy_url,  # 添加这一行以确保所有协议都使用代理
+    #         }
+    #         client = httpx.AsyncClient(proxies=proxies)
+    #     else:
+    #         client = httpx.AsyncClient()
+
+    #     return (
+    #         ApplicationBuilder()
+    #         .token(self._config["telegram"]["token"])
+    #         .client(client)
+    #         .build()
+    #     )
     def _init_telegram_app(self):
-        return Application.builder().token(self._config["telegram"]["token"]).build()
+
+        # 故意引发一个异常
+        # raise Exception("This is a test exception")
+
+
+        # 获取代理配置
+        proxy_url = self._config["telegram"].get("httpsProxy")
+        request = None
+
+        if proxy_url:
+            logger.info(f"Using proxy: {proxy_url}")
+            if proxy_url.startswith("socks5://"):
+                # 检查是否安装了 SOCKS5 代理所需的包
+                if importlib.util.find_spec("telegram[socks]") is None:
+                    logger.warning(
+                        "SOCKS5 proxy requires 'python-telegram-bot[socks]' package. "
+                        "Please install it using 'pip install python-telegram-bot[socks]'"
+                    )
+                else:
+                    request = HTTPXRequest(proxy=proxy_url)
+            else:
+                request = HTTPXRequest(proxy=proxy_url)
+        else:
+            request = HTTPXRequest()
+
+        return (
+            ApplicationBuilder()
+            .token(self._config["telegram"]["token"])
+            .request(request)
+            .build()
+        )
 
     def _init(self) -> None:
         """
