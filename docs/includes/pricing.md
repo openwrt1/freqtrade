@@ -4,10 +4,10 @@ Prices for regular orders can be controlled via the parameter structures `entry_
 Prices are always retrieved right before an order is placed, either by querying the exchange tickers or by using the orderbook data.
 
 !!! Note
-    Orderbook data used by Freqtrade are the data retrieved from exchange by the ccxt's function `fetch_order_book()`, i.e. are usually data from the L2-aggregated orderbook, while the ticker data are the structures returned by the ccxt's `fetch_ticker()`/`fetch_tickers()` functions. Refer to the ccxt library [documentation](https://github.com/ccxt/ccxt/wiki/Manual#market-data) for more details.
+Orderbook data used by Freqtrade are the data retrieved from exchange by the ccxt's function `fetch_order_book()`, i.e. are usually data from the L2-aggregated orderbook, while the ticker data are the structures returned by the ccxt's `fetch_ticker()`/`fetch_tickers()` functions. Refer to the ccxt library [documentation](https://github.com/ccxt/ccxt/wiki/Manual#market-data) for more details.
 
 !!! Warning "Using market orders"
-    Please read the section [Market order pricing](#market-order-pricing) section when using market orders.
+Please read the section [Market order pricing](#market-order-pricing) section when using market orders.
 
 ### Entry price
 
@@ -17,7 +17,7 @@ The configuration setting `entry_pricing.price_side` defines the side of the ord
 
 The following displays an orderbook.
 
-``` explanation
+```explanation
 ...
 103
 102
@@ -36,15 +36,15 @@ Depending on the order direction (_long_/_short_), this will lead to different r
 This would result in the following pricing matrix:
 
 | direction | Order | setting | price | crosses spread |
-|------ |--------|-----|-----|-----|
-| long  | buy  | ask   | 101 | yes |
-| long  | buy  | bid   | 99  | no  |
-| long  | buy  | same  | 99  | no  |
-| long  | buy  | other | 101 | yes |
-| short | sell | ask   | 101 | no  |
-| short | sell | bid   | 99  | yes |
-| short | sell | same  | 101 | no  |
-| short | sell | other | 99  | yes |
+| --------- | ----- | ------- | ----- | -------------- |
+| long      | buy   | ask     | 101   | yes            |
+| long      | buy   | bid     | 99    | no             |
+| long      | buy   | same    | 99    | no             |
+| long      | buy   | other   | 101   | yes            |
+| short     | sell  | ask     | 101   | no             |
+| short     | sell  | bid     | 99    | yes            |
+| short     | sell  | same    | 101   | no             |
+| short     | sell  | other   | 99    | yes            |
 
 Using the other side of the orderbook often guarantees quicker filled orders, but the bot can also end up paying more than what would have been necessary.
 Taker fees instead of maker fees will most likely apply even when using limit buy orders.
@@ -69,7 +69,7 @@ When check depth of market is enabled (`entry_pricing.check_depth_of_market.enab
 Orderbook `bid` (buy) side depth is then divided by the orderbook `ask` (sell) side depth and the resulting delta is compared to the value of the `entry_pricing.check_depth_of_market.bids_to_ask_delta` parameter. The entry order is only executed if the orderbook delta is greater than or equal to the configured delta value.
 
 !!! Note
-    A delta value below 1 means that `ask` (sell) orderbook side depth is greater than the depth of the `bid` (buy) orderbook side, while a value greater than 1 means opposite (depth of the buy side is higher than the depth of the sell side).
+A delta value below 1 means that `ask` (sell) orderbook side depth is greater than the depth of the `bid` (buy) orderbook side, while a value greater than 1 means opposite (depth of the buy side is higher than the depth of the sell side).
 
 ### Exit price
 
@@ -79,7 +79,7 @@ The configuration setting `exit_pricing.price_side` defines the side of the spre
 
 The following displays an orderbook:
 
-``` explanation
+```explanation
 ...
 103
 102
@@ -98,15 +98,15 @@ Depending on the order direction (_long_/_short_), this will lead to different r
 This would result in the following pricing matrix:
 
 | Direction | Order | setting | price | crosses spread |
-|------ |--------|-----|-----|-----|
-| long  | sell | ask   | 101 | no  |
-| long  | sell | bid   | 99  | yes |
-| long  | sell | same  | 101 | no  |
-| long  | sell | other | 99  | yes |
-| short | buy  | ask   | 101 | yes |
-| short | buy  | bid   | 99  | no  |
-| short | buy  | same  | 99  | no  |
-| short | buy  | other | 101 | yes |
+| --------- | ----- | ------- | ----- | -------------- |
+| long      | sell  | ask     | 101   | no             |
+| long      | sell  | bid     | 99    | yes            |
+| long      | sell  | same    | 101   | no             |
+| long      | sell  | other   | 99    | yes            |
+| short     | buy   | ask     | 101   | yes            |
+| short     | buy   | bid     | 99    | no             |
+| short     | buy   | same    | 99    | no             |
+| short     | buy   | other   | 101   | yes            |
 
 #### Exit price with Orderbook enabled
 
@@ -127,7 +127,7 @@ The `exit_pricing.price_last_balance` configuration parameter controls this. A v
 When using market orders, prices should be configured to use the "correct" side of the orderbook to allow realistic pricing detection.
 Assuming both entry and exits are using market orders, a configuration similar to the following must be used
 
-``` jsonc
+```jsonc
   "order_types": {
     "entry": "market",
     "exit": "market"

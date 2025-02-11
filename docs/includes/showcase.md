@@ -1,6 +1,6 @@
 This section will highlight a few projects from members of the community.
 !!! Note
-    The projects below are for the most part not maintained by the freqtrade , therefore use your own caution before using them.
+The projects below are for the most part not maintained by the freqtrade , therefore use your own caution before using them.
 
 - [Example freqtrade strategies](https://github.com/freqtrade/freqtrade-strategies/)
 - [FrequentHippo - Grafana dashboard with dry/live runs and backtests](http://frequenthippo.ddns.net:3000/) (by hippocritical).

@@ -6,10 +6,10 @@ If you're just getting started, please familiarize yourself with the [Freqtrade 
 The call sequence of the methods described here is covered under [bot execution logic](bot-basics.md#bot-execution-logic). Those docs are also helpful in deciding which method is most suitable for your customisation needs.
 
 !!! Note
-    Callback methods should *only* be implemented if a strategy uses them.
+Callback methods should _only_ be implemented if a strategy uses them.
 
 !!! Tip
-    Start off with a strategy template containing all available callback methods by running `freqtrade new-strategy --strategy MyAwesomeStrategy --template advanced`
+Start off with a strategy template containing all available callback methods by running `freqtrade new-strategy --strategy MyAwesomeStrategy --template advanced`
 
 ## Storing information (Persistent)
 
@@ -43,10 +43,10 @@ class AwesomeStrategy(IStrategy):
                            entry_tag: str | None, side: str, **kwargs) -> float:
         # Limit orders to use and follow SMA200 as price target for the first 10 minutes since entry trigger for BTC/USDT pair.
         if (
-            pair == 'BTC/USDT' 
-            and entry_tag == 'long_sma200' 
-            and side == 'long' 
-            and (current_time - timedelta(minutes=10)) > trade.open_date_utc 
+            pair == 'BTC/USDT'
+            and entry_tag == 'long_sma200'
+            and side == 'long'
+            and (current_time - timedelta(minutes=10)) > trade.open_date_utc
             and order.filled == 0.0
         ):
             dataframe, _ = self.dp.get_analyzed_dataframe(pair=pair, timeframe=self.timeframe)
@@ -84,14 +84,14 @@ class AwesomeStrategy(IStrategy):
 The above is a simple example - there are simpler ways to retrieve trade data like entry-adjustments.
 
 !!! Note
-    It is recommended that simple data types are used `[bool, int, float, str]` to ensure no issues when serializing the data that needs to be stored.
-    Storing big junks of data may lead to unintended side-effects, like a database becoming big (and as a consequence, also slow).
+It is recommended that simple data types are used `[bool, int, float, str]` to ensure no issues when serializing the data that needs to be stored.
+Storing big junks of data may lead to unintended side-effects, like a database becoming big (and as a consequence, also slow).
 
 !!! Warning "Non-serializable data"
-    If supplied data cannot be serialized a warning is logged and the entry for the specified `key` will contain `None` as data.
+If supplied data cannot be serialized a warning is logged and the entry for the specified `key` will contain `None` as data.
 
 ??? Note "All attributes"
-    custom-data has the following accessors through the Trade object (assumed as `trade` below):
+custom-data has the following accessors through the Trade object (assumed as `trade` below):
 
     * `trade.get_custom_data(key='something', default=0)` - Returns the actual value given in the type provided.
     * `trade.get_custom_data_entry(key='something')` - Returns the entry - including metadata. The value is accessible via `.value` property.
@@ -102,13 +102,13 @@ The above is a simple example - there are simpler ways to retrieve trade data li
 ## Storing information (Non-Persistent)
 
 !!! Warning "Deprecated"
-    This method of storing information is deprecated and we do advise against using non-persistent storage.  
-    Please use [Persistent Storage](#storing-information-persistent) instead.
+This method of storing information is deprecated and we do advise against using non-persistent storage.  
+ Please use [Persistent Storage](#storing-information-persistent) instead.
 
     It's content has therefore been collapsed.
 
 ??? Abstract "Storing information"
-    Storing information can be accomplished by creating a new dictionary within the strategy class.
+Storing information can be accomplished by creating a new dictionary within the strategy class.
 
     The name of the variable can be chosen at will, but should be prefixed with `custom_` to avoid naming collisions with predefined strategy variables.
 
@@ -139,7 +139,7 @@ The above is a simple example - there are simpler ways to retrieve trade data li
 
 You may access dataframe in various strategy functions by querying it from dataprovider.
 
-``` python
+```python
 from freqtrade.exchange import timeframe_to_prev_date
 
 class AwesomeStrategy(IStrategy):
@@ -149,12 +149,12 @@ class AwesomeStrategy(IStrategy):
         # Obtain pair dataframe.
         dataframe, _ = self.dp.get_analyzed_dataframe(pair, self.timeframe)
 
-        # Obtain last available candle. Do not use current_time to look up latest candle, because 
+        # Obtain last available candle. Do not use current_time to look up latest candle, because
         # current_time points to current incomplete candle whose data is not available.
         last_candle = dataframe.iloc[-1].squeeze()
         # <...>
 
-        # In dry/live runs trade open date will not match candle open date therefore it must be 
+        # In dry/live runs trade open date will not match candle open date therefore it must be
         # rounded.
         trade_date = timeframe_to_prev_date(self.timeframe, trade.open_date_utc)
         # Look up trade candle.
@@ -166,11 +166,11 @@ class AwesomeStrategy(IStrategy):
 ```
 
 !!! Warning "Using .iloc[-1]"
-    You can use `.iloc[-1]` here because `get_analyzed_dataframe()` only returns candles that backtesting is allowed to see.
-    This will not work in `populate_*` methods, so make sure to not use `.iloc[]` in that area.
-    Also, this will only work starting with version 2021.5.
+You can use `.iloc[-1]` here because `get_analyzed_dataframe()` only returns candles that backtesting is allowed to see.
+This will not work in `populate_*` methods, so make sure to not use `.iloc[]` in that area.
+Also, this will only work starting with version 2021.5.
 
-***
+---
 
 ## Enter Tag
 
@@ -199,19 +199,19 @@ def custom_exit(self, pair: str, trade: Trade, current_time: datetime, current_r
 ```
 
 !!! Note
-    `enter_tag` is limited to 100 characters, remaining data will be truncated.
+`enter_tag` is limited to 100 characters, remaining data will be truncated.
 
 !!! Warning
-    There is only one `enter_tag` column, which is used for both long and short trades.
-    As a consequence, this column must be treated as "last write wins" (it's just a dataframe column after all).
-    In fancy situations, where multiple signals collide (or if signals are deactivated again based on different conditions), this can lead to odd results with the wrong tag applied to an entry signal.
-    These results are a consequence of the strategy overwriting prior tags - where the last tag will "stick" and will be the one freqtrade will use.
+There is only one `enter_tag` column, which is used for both long and short trades.
+As a consequence, this column must be treated as "last write wins" (it's just a dataframe column after all).
+In fancy situations, where multiple signals collide (or if signals are deactivated again based on different conditions), this can lead to odd results with the wrong tag applied to an entry signal.
+These results are a consequence of the strategy overwriting prior tags - where the last tag will "stick" and will be the one freqtrade will use.
 
 ## Exit tag
 
 Similar to [Entry Tagging](#enter-tag), you can also specify an exit tag.
 
-``` python
+```python
 def populate_exit_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
     dataframe.loc[
         (
@@ -226,13 +226,13 @@ def populate_exit_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame
 The provided exit-tag is then used as sell-reason - and shown as such in backtest results.
 
 !!! Note
-    `exit_reason` is limited to 100 characters, remaining data will be truncated.
+`exit_reason` is limited to 100 characters, remaining data will be truncated.
 
 ## Strategy version
 
 You can implement custom strategy versioning by using the "version" method, and returning the version you would like this strategy to have.
 
-``` python
+```python
 def version(self) -> str:
     """
     Returns version of the strategy.
@@ -241,13 +241,13 @@ def version(self) -> str:
 ```
 
 !!! Note
-    You should make sure to implement proper version control (like a git repository) alongside this, as freqtrade will not keep historic versions of your strategy, so it's up to the user to be able to eventually roll back to a prior version of the strategy.
+You should make sure to implement proper version control (like a git repository) alongside this, as freqtrade will not keep historic versions of your strategy, so it's up to the user to be able to eventually roll back to a prior version of the strategy.
 
 ## Derived strategies
 
 The strategies can be derived from other strategies. This avoids duplication of your custom strategy code. You can use this technique to override small parts of your main strategy, leaving the rest untouched:
 
-``` python title="user_data/strategies/myawesomestrategy.py"
+```python title="user_data/strategies/myawesomestrategy.py"
 class MyAwesomeStrategy(IStrategy):
     ...
     stoploss = 0.13
@@ -258,7 +258,7 @@ class MyAwesomeStrategy(IStrategy):
 
 ```
 
-``` python title="user_data/strategies/MyAwesomeStrategy2.py"
+```python title="user_data/strategies/MyAwesomeStrategy2.py"
 from myawesomestrategy import MyAwesomeStrategy
 class MyAwesomeStrategy2(MyAwesomeStrategy):
     # Override something

@@ -8,12 +8,12 @@ sell condition above those provided by the default backtesting output. You may a
 determine indicator values on the signal candle that resulted in a trade opening.
 
 !!! Note
-    The following buy reason analysis is only available for backtesting, *not hyperopt*.
+The following buy reason analysis is only available for backtesting, _not hyperopt_.
 
 We need to run backtesting with the `--export` option set to `signals` to enable the exporting of
 signals **and** trades:
 
-``` bash
+```bash
 freqtrade backtesting -c <config.json> --timeframe <tf> --strategy <strategy_name> --timerange=<timerange> --export=signals
 ```
 
@@ -29,7 +29,7 @@ If all goes well, you should now see a `backtest-result-{timestamp}_signals.pkl`
 To analyze the entry/exit tags, we now need to use the `freqtrade backtesting-analysis` command
 with `--analysis-groups` option provided with space-separated arguments:
 
-``` bash
+```bash
 freqtrade backtesting-analysis -c <config.json> --analysis-groups 0 1 2 3 4 5
 ```
 
@@ -37,12 +37,12 @@ This command will read from the last backtesting results. The `--analysis-groups
 used to specify the various tabular outputs showing the profit of each group or trade,
 ranging from the simplest (0) to the most detailed per pair, per buy and per sell tag (4):
 
-* 0: overall winrate and profit summary by enter_tag
-* 1: profit summaries grouped by enter_tag
-* 2: profit summaries grouped by enter_tag and exit_tag
-* 3: profit summaries grouped by pair and enter_tag
-* 4: profit summaries grouped by pair, enter_ and exit_tag (this can get quite large)
-* 5: profit summaries grouped by exit_tag
+- 0: overall winrate and profit summary by enter_tag
+- 1: profit summaries grouped by enter_tag
+- 2: profit summaries grouped by enter_tag and exit_tag
+- 3: profit summaries grouped by pair and enter_tag
+- 4: profit summaries grouped by pair, enter\_ and exit_tag (this can get quite large)
+- 5: profit summaries grouped by exit_tag
 
 More options are available by running with the `-h` option.
 
@@ -54,7 +54,7 @@ You can supply the same parameter to `backtest-analysis` with the name of the fi
 output file. This allows you to keep historical versions of backtest results and re-analyse
 them at a later date:
 
-``` bash
+```bash
 freqtrade backtesting -c <config.json> --timeframe <tf> --strategy <strategy_name> --timerange=<timerange> --export=signals --export-filename=/tmp/mystrat_backtest.json
 ```
 
@@ -102,28 +102,28 @@ timeframe or for informative timeframes) otherwise they will simply be ignored i
 output.
 
 !!! Note "Indicator List"
-    The indicator values will be displayed for both entry and exit points. If `--indicator-list all` is specified, 
-    only the indicators at the entry point will be shown to avoid excessively large lists, which could occur depending on the strategy.
+The indicator values will be displayed for both entry and exit points. If `--indicator-list all` is specified,
+only the indicators at the entry point will be shown to avoid excessively large lists, which could occur depending on the strategy.
 
-There are a range of candle and trade-related fields that are included in the analysis so are 
+There are a range of candle and trade-related fields that are included in the analysis so are
 automatically accessible by including them on the indicator-list, and these include:
 
-- **open_date     :** trade open datetime
-- **close_date    :** trade close datetime
-- **min_rate      :** minimum price seen throughout the position
-- **max_rate      :** maximum price seen throughout the position
-- **open          :** signal candle open price
-- **close         :** signal candle close price
-- **high          :** signal candle high price
-- **low           :** signal candle low price
-- **volume        :** signal candle volume
-- **profit_ratio  :** trade profit ratio
-- **profit_abs    :** absolute profit return of the trade 
+- **open_date :** trade open datetime
+- **close_date :** trade close datetime
+- **min_rate :** minimum price seen throughout the position
+- **max_rate :** maximum price seen throughout the position
+- **open :** signal candle open price
+- **close :** signal candle close price
+- **high :** signal candle high price
+- **low :** signal candle low price
+- **volume :** signal candle volume
+- **profit_ratio :** trade profit ratio
+- **profit_abs :** absolute profit return of the trade
 
 #### Sample Output for Indicator Values
 
 ```bash
-freqtrade backtesting-analysis -c user_data/config.json --analysis-groups 0 --indicator-list chikou_span tenkan_sen 
+freqtrade backtesting-analysis -c user_data/config.json --analysis-groups 0 --indicator-list chikou_span tenkan_sen
 ```
 
 In this example,
@@ -132,22 +132,22 @@ we aim to display the `chikou_span` and `tenkan_sen` indicator values at both th
 A sample output for indicators might look like this:
 
 | pair      | open_date                 | enter_reason | exit_reason | chikou_span (entry) | tenkan_sen (entry) | chikou_span (exit) | tenkan_sen (exit) |
-|-----------|---------------------------|--------------|-------------|---------------------|--------------------|--------------------|-------------------|
+| --------- | ------------------------- | ------------ | ----------- | ------------------- | ------------------ | ------------------ | ----------------- |
 | DOGE/USDT | 2024-07-06 00:35:00+00:00 |              | exit_signal | 0.105               | 0.106              | 0.105              | 0.107             |
 | BTC/USDT  | 2024-08-05 14:20:00+00:00 |              | roi         | 54643.440           | 51696.400          | 54386.000          | 52072.010         |
 
-As shown in the table, `chikou_span (entry)` represents the indicator value at the time of trade entry, 
-while `chikou_span (exit)` reflects its value at the time of exit. 
+As shown in the table, `chikou_span (entry)` represents the indicator value at the time of trade entry,
+while `chikou_span (exit)` reflects its value at the time of exit.
 This detailed view of indicator values enhances the analysis.
 
 The `(entry)` and `(exit)` suffixes are added to indicators
 to distinguish the values at the entry and exit points of the trade.
 
 !!! Note "Trade-wide Indicators"
-    Certain trade-wide indicators do not have the `(entry)` or `(exit)` suffix. These indicators include: `pair`, `stake_amount`, 
-    `max_stake_amount`, `amount`, `open_date`, `close_date`, `open_rate`, `close_rate`, `fee_open`, `fee_close`, `trade_duration`, 
-    `profit_ratio`, `profit_abs`, `exit_reason`,`initial_stop_loss_abs`, `initial_stop_loss_ratio`, `stop_loss_abs`, `stop_loss_ratio`, 
-    `min_rate`, `max_rate`, `is_open`, `enter_tag`, `leverage`, `is_short`, `open_timestamp`, `close_timestamp` and `orders`
+Certain trade-wide indicators do not have the `(entry)` or `(exit)` suffix. These indicators include: `pair`, `stake_amount`,
+`max_stake_amount`, `amount`, `open_date`, `close_date`, `open_rate`, `close_rate`, `fee_open`, `fee_close`, `trade_duration`,
+`profit_ratio`, `profit_abs`, `exit_reason`,`initial_stop_loss_abs`, `initial_stop_loss_ratio`, `stop_loss_abs`, `stop_loss_ratio`,
+`min_rate`, `max_rate`, `is_open`, `enter_tag`, `leverage`, `is_short`, `open_timestamp`, `close_timestamp` and `orders`
 
 #### Filtering Indicators Based on Entry or Exit Signals
 
@@ -165,8 +165,8 @@ Example: Display indicator values at exit signals:
 freqtrade backtesting-analysis -c user_data/config.json --analysis-groups 0 --indicator-list chikou_span tenkan_sen --exit-only
 ```
 
-!!! note 
-    When using these filters, the indicator names will not be suffixed with `(entry)` or `(exit)`.
+!!! note
+When using these filters, the indicator names will not be suffixed with `(entry)` or `(exit)`.
 
 ### Filtering the trade output by date
 
@@ -207,9 +207,9 @@ freqtrade backtesting-analysis -c <config.json> --analysis-to-csv --rejected-sig
 
 This will write to `user_data/backtest_results`:
 
-* rejected_signals.csv
-* group_0.csv
-* group_1.csv
+- rejected_signals.csv
+- group_0.csv
+- group_1.csv
 
 To override where the files will be written, also specify the `--analysis-csv-path` option.
 

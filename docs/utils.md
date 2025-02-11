@@ -11,7 +11,7 @@ Can be used multiple times - using `--reset` will reset the sample strategy and 
 --8<-- "commands/create-userdir.md"
 
 !!! Warning
-    Using `--reset` may result in loss of data, since this will overwrite all sample files without asking again.
+Using `--reset` may result in loss of data, since this will overwrite all sample files without asking again.
 
 ```
 ├── backtest_results
@@ -33,7 +33,7 @@ Creates a new configuration file, asking some questions which are important sele
 --8<-- "commands/new-config.md"
 
 !!! Warning
-    Only vital questions are asked. Freqtrade offers a lot more configuration possibilities, which are listed in the [Configuration documentation](configuration.md#configuration-parameters)
+Only vital questions are asked. Freqtrade offers a lot more configuration possibilities, which are listed in the [Configuration documentation](configuration.md#configuration-parameters)
 
 ### Create config examples
 
@@ -59,7 +59,7 @@ Especially useful with [split configuration files](configuration.md#multiple-con
 
 --8<-- "commands/show-config.md"
 
-``` output
+```output
 Your combined configuration is:
 {
   "exit_pricing": {
@@ -80,8 +80,8 @@ Your combined configuration is:
 ```
 
 !!! Warning "Sharing information provided by this command"
-    We try to remove all known sensitive information from the default output (without `--show-sensitive`). 
-    Yet, please do double-check for sensitive values in your output to make sure you're not accidentally exposing some private info.
+We try to remove all known sensitive information from the default output (without `--show-sensitive`).
+Yet, please do double-check for sensitive values in your output to make sure you're not accidentally exposing some private info.
 
 ## Create new strategy
 
@@ -119,23 +119,23 @@ This subcommand is useful for finding problems in your environment with loading 
 --8<-- "commands/list-strategies.md"
 
 !!! Warning
-    Using these commands will try to load all python files from a directory. This can be a security risk if untrusted files reside in this directory, since all module-level code is executed.
+Using these commands will try to load all python files from a directory. This can be a security risk if untrusted files reside in this directory, since all module-level code is executed.
 
 Example: Search default strategies directories (within the default userdir).
 
-``` bash
+```bash
 freqtrade list-strategies
 ```
 
-Example: Search strategies  directory within the userdir.
+Example: Search strategies directory within the userdir.
 
-``` bash
+```bash
 freqtrade list-strategies --userdir ~/.freqtrade/
 ```
 
 Example: Search dedicated strategy path.
 
-``` bash
+```bash
 freqtrade list-strategies --strategy-path ~/.freqtrade/strategies/
 ```
 
@@ -181,10 +181,10 @@ okx                 Official     spot, isolated futures
 ```
 
 !!! info ""
-    Output reduced for clarity - supported and available exchanges may change over time.
+Output reduced for clarity - supported and available exchanges may change over time.
 
 !!! Note "missing opt exchanges"
-    Values with "missing opt:" might need special configuration (e.g. using orderbook if `fetchTickers` is missing) - but should in theory work (although we cannot guarantee they will).
+Values with "missing opt:" might need special configuration (e.g. using orderbook if `fetchTickers` is missing) - but should in theory work (although we cannot guarantee they will).
 
 Example: see all exchanges supported by the ccxt library (including 'bad' ones, i.e. those that are known to not work with Freqtrade)
 
@@ -204,7 +204,7 @@ okx                 True     Official     spot, isolated futures
 ```
 
 !!! info ""
-    Reduced output - supported and available exchanges may change over time.
+Reduced output - supported and available exchanges may change over time.
 
 ## List Timeframes
 
@@ -212,7 +212,7 @@ Use the `list-timeframes` subcommand to see the list of timeframes available for
 
 --8<-- "commands/list-timeframes.md"
 
-* Example: see the timeframes for the 'binance' exchange, set in the configuration file:
+- Example: see the timeframes for the 'binance' exchange, set in the configuration file:
 
 ```
 $ freqtrade list-timeframes -c config_binance.json
@@ -220,7 +220,8 @@ $ freqtrade list-timeframes -c config_binance.json
 Timeframes available for the exchange `binance`: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
 ```
 
-* Example: enumerate exchanges available for Freqtrade and print timeframes supported by each of them:
+- Example: enumerate exchanges available for Freqtrade and print timeframes supported by each of them:
+
 ```
 $ for i in `freqtrade list-exchanges -1`; do freqtrade list-timeframes --exchange $i; done
 ```
@@ -248,22 +249,22 @@ Pairs/markets are sorted by its symbol string in the printed output.
 
 ### Examples
 
-* Print the list of active pairs with quote currency USD on exchange, specified in the default
-configuration file (i.e. pairs on the "Binance" exchange) in JSON format:
+- Print the list of active pairs with quote currency USD on exchange, specified in the default
+  configuration file (i.e. pairs on the "Binance" exchange) in JSON format:
 
 ```
 $ freqtrade list-pairs --quote USD --print-json
 ```
 
-* Print the list of all pairs on the exchange, specified in the `config_binance.json` configuration file
-(i.e. on the "Binance" exchange) with base currencies BTC or ETH and quote currencies USDT or USD, as the
-human-readable list with summary:
+- Print the list of all pairs on the exchange, specified in the `config_binance.json` configuration file
+  (i.e. on the "Binance" exchange) with base currencies BTC or ETH and quote currencies USDT or USD, as the
+  human-readable list with summary:
 
 ```
 $ freqtrade list-pairs -c config_binance.json --all --base BTC ETH --quote USDT USD --print-list
 ```
 
-* Print all markets on exchange "Kraken", in the tabular format:
+- Print all markets on exchange "Kraken", in the tabular format:
 
 ```
 $ freqtrade list-markets --exchange kraken --all
@@ -295,13 +296,13 @@ Please refer to the [corresponding documentation](advanced-setup.md#use-a-differ
 --8<-- "commands/convert-db.md"
 
 !!! Warning
-    Please ensure to only use this on an empty target database. Freqtrade will perform a regular migration, but may fail if entries already existed.
+Please ensure to only use this on an empty target database. Freqtrade will perform a regular migration, but may fail if entries already existed.
 
 ## Webserver mode
 
 !!! Warning "Experimental"
-    Webserver mode is an experimental mode to increase backesting and strategy development productivity.
-    There may still be bugs - so if you happen to stumble across these, please report them as github issues, thanks.
+Webserver mode is an experimental mode to increase backesting and strategy development productivity.
+There may still be bugs - so if you happen to stumble across these, please report them as github issues, thanks.
 
 Run freqtrade in webserver mode.
 Freqtrade will start the webserver and allow FreqUI to start and control backtesting processes.
@@ -318,17 +319,17 @@ You can use `docker compose run --rm -p 127.0.0.1:8080:8080 freqtrade webserver`
 
 Alternatively, you can reconfigure the docker-compose file to have the command updated:
 
-``` yml
-    command: >
-      webserver
-      --config /freqtrade/user_data/config.json
+```yml
+command: >
+  webserver
+  --config /freqtrade/user_data/config.json
 ```
 
 You can now use `docker compose up` to start the webserver.
 This assumes that the configuration has a webserver enabled and configured for docker (listening port = `0.0.0.0`).
 
 !!! Tip
-    Don't forget to reset the command back to the trade command if you want to start a live or dry-run bot. 
+Don't forget to reset the command back to the trade command if you want to start a live or dry-run bot.
 
 ## Show previous Backtest results
 
@@ -336,7 +337,7 @@ Allows you to show previous backtest results.
 Adding `--show-pair-list` outputs a sorted pair list you can easily copy/paste into your configuration (omitting bad pairs).
 
 ??? Warning "Strategy overfitting"
-    Only using winning pairs can lead to an overfitted strategy, which will not work well on future data. Make sure to extensively test your strategy in dry-run before risking real money.
+Only using winning pairs can lead to an overfitted strategy, which will not work well on future data. Make sure to extensively test your strategy in dry-run before risking real money.
 
 --8<-- "commands/backtesting-show.md"
 
@@ -355,17 +356,19 @@ You can list the hyperoptimization epochs the Hyperopt module evaluated previous
 --8<-- "commands/hyperopt-list.md"
 
 !!! Note
-    `hyperopt-list` will automatically use the latest available hyperopt results file.
-    You can override this using the `--hyperopt-filename` argument, and specify another, available filename (without path!).
+`hyperopt-list` will automatically use the latest available hyperopt results file.
+You can override this using the `--hyperopt-filename` argument, and specify another, available filename (without path!).
 
 ### Examples
 
 List all results, print details of the best result at the end:
+
 ```
 freqtrade hyperopt-list
 ```
 
 List only epochs with positive profit. Do not print the details of the best epoch, so that the list can be iterated in a script:
+
 ```
 freqtrade hyperopt-list --profitable --no-details
 ```
@@ -377,8 +380,8 @@ You can show the details of any hyperoptimization epoch previously evaluated by 
 --8<-- "commands/hyperopt-show.md"
 
 !!! Note
-    `hyperopt-show` will automatically use the latest available hyperopt results file.
-    You can override this using the `--hyperopt-filename` argument, and specify another, available filename (without path!).
+`hyperopt-show` will automatically use the latest available hyperopt results file.
+You can override this using the `--hyperopt-filename` argument, and specify another, available filename (without path!).
 
 ### Examples
 
@@ -404,7 +407,7 @@ Print selected (or all) trades from database to screen.
 
 Print trades with id 2 and 3 as json
 
-``` bash
+```bash
 freqtrade show-trades --db-url sqlite:///tradesv3.sqlite --trade-ids 2 3 --print-json
 ```
 
@@ -415,7 +418,7 @@ If the command runs without --strategy-list then all strategies inside the strat
 Your original strategy will remain available in the `user_data/strategies_orig_updater/` directory.
 
 !!! Warning "Conversion results"
-    Strategy updater will work on a "best effort" approach. Please do your due diligence and verify the results of the conversion.
-    We also recommend to run a python formatter (e.g. `black`) to format results in a sane manner.
+Strategy updater will work on a "best effort" approach. Please do your due diligence and verify the results of the conversion.
+We also recommend to run a python formatter (e.g. `black`) to format results in a sane manner.
 
 --8<-- "commands/strategy-updater.md"

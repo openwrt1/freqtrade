@@ -18,7 +18,7 @@ Futures trading is supported for selected exchanges. Please refer to the [docume
 
 ## Beginner Tips & Tricks
 
-* When you work with your strategy & hyperopt file you should use a proper code editor like VSCode or PyCharm. A good code editor will provide syntax highlighting as well as line numbers, making it easy to find syntax errors (most likely pointed out by Freqtrade during startup).
+- When you work with your strategy & hyperopt file you should use a proper code editor like VSCode or PyCharm. A good code editor will provide syntax highlighting as well as line numbers, making it easy to find syntax errors (most likely pointed out by Freqtrade during startup).
 
 ## Freqtrade common questions
 
@@ -35,10 +35,10 @@ Running the bot with `freqtrade trade --config config.json` shows the output `fr
 
 This could be caused by the following reasons:
 
-* The virtual environment is not active.
-  * Run `source .venv/bin/activate` to activate the virtual environment.
-* The installation did not complete successfully.
-  * Please check the [Installation documentation](installation.md).
+- The virtual environment is not active.
+  - Run `source .venv/bin/activate` to activate the virtual environment.
+- The installation did not complete successfully.
+  - Please check the [Installation documentation](installation.md).
 
 ### The bot starts, but in STOPPED mode
 
@@ -46,13 +46,13 @@ Make sure you set the `initial_state` config option to `"running"` in your confi
 
 ### I have waited 5 minutes, why hasn't the bot made any trades yet?
 
-* Depending on the entry strategy, the amount of whitelisted coins, the
-situation of the market etc, it can take up to hours or days to find a good entry
-position for a trade. Be patient!
+- Depending on the entry strategy, the amount of whitelisted coins, the
+  situation of the market etc, it can take up to hours or days to find a good entry
+  position for a trade. Be patient!
 
-* Backtesting will tell you roughly how many trades to expect - but that won't guarantee that they'll be distributed evenly across time - so you could have 20 trades on one day, and 0 for the rest of the week.
+- Backtesting will tell you roughly how many trades to expect - but that won't guarantee that they'll be distributed evenly across time - so you could have 20 trades on one day, and 0 for the rest of the week.
 
-* It may be because of a configuration error. It's best to check the logs, they usually tell you if the bot is simply not getting buy signals (only heartbeat messages), or if there is something wrong (errors / exceptions in the log).
+- It may be because of a configuration error. It's best to check the logs, they usually tell you if the bot is simply not getting buy signals (only heartbeat messages), or if there is something wrong (errors / exceptions in the log).
 
 ### I have made 12 trades already, why is my total profit negative?
 
@@ -109,15 +109,15 @@ Please look at the [advanced setup documentation Page](advanced-setup.md#running
 ### I'm getting "Impossible to load Strategy" when starting the bot
 
 This error message is shown when the bot cannot load the strategy.
-Usually, you can use `freqtrade list-strategies` to list all available strategies. 
+Usually, you can use `freqtrade list-strategies` to list all available strategies.
 The output of this command will also include a status column, showing if the strategy can be loaded.
 
 Please check the following:
 
-* Are you using the correct strategy name? The strategy name is case-sensitive and must correspond to the Strategy class name (not the filename!).
-* Is the strategy in the `user_data/strategies` directory, and has the file-ending `.py`?
-* Does the bot show other warnings before this error? Maybe you're missing some dependencies for the strategy - which would be highlighted in the log.
-* In case of docker - is the strategy directory mounted correctly (check the volumes part of the docker-compose file)?
+- Are you using the correct strategy name? The strategy name is case-sensitive and must correspond to the Strategy class name (not the filename!).
+- Is the strategy in the `user_data/strategies` directory, and has the file-ending `.py`?
+- Does the bot show other warnings before this error? Maybe you're missing some dependencies for the strategy - which would be highlighted in the log.
+- In case of docker - is the strategy directory mounted correctly (check the volumes part of the docker-compose file)?
 
 ### I'm getting "Missing data fillup" messages in the log
 
@@ -146,10 +146,10 @@ As a consequence, Freqtrade will not enter a trade for this pair - as trading on
 
 This warning can point to one of the below problems:
 
-* Exchange downtime -> Check your exchange status page / blog / twitter feed for details.
-* Wrong system time -> Ensure your system-time is correct.
-* Barely traded pair -> Check the pair on the exchange webpage, look at the timeframe your strategy uses. If the pair does not have any volume in some candles (usually visualized with a "volume 0" bar, and a "_" as candle), this pair did not have any trades in this timeframe. These pairs should ideally be avoided, as they can cause problems with order-filling.
-* API problem -> API returns wrong data (this only here for completeness, and should not happen with supported exchanges).
+- Exchange downtime -> Check your exchange status page / blog / twitter feed for details.
+- Wrong system time -> Ensure your system-time is correct.
+- Barely traded pair -> Check the pair on the exchange webpage, look at the timeframe your strategy uses. If the pair does not have any volume in some candles (usually visualized with a "volume 0" bar, and a "\_" as candle), this pair did not have any trades in this timeframe. These pairs should ideally be avoided, as they can cause problems with order-filling.
+- API problem -> API returns wrong data (this only here for completeness, and should not happen with supported exchanges).
 
 ### I'm getting the "Exchange XXX does not support market orders." message and cannot run my strategy
 
@@ -157,7 +157,7 @@ As the message says, your exchange does not support market orders and you have o
 
 To fix this, redefine order types in the strategy to use "limit" instead of "market":
 
-``` python
+```python
     order_types = {
         ...
         "stoploss": "limit",
@@ -178,36 +178,48 @@ Futures will usually have to be enabled specifically.
 
 By default, the bot writes its log into stderr stream. This is implemented this way so that you can easily separate the bot's diagnostics messages from Backtesting, Edge and Hyperopt results, output from other various Freqtrade utility sub-commands, as well as from the output of your custom `print()`'s you may have inserted into your strategy. So if you need to search the log messages with the grep utility, you need to redirect stderr to stdout and disregard stdout.
 
-* In unix shells, this normally can be done as simple as:
+- In unix shells, this normally can be done as simple as:
+
 ```shell
 $ freqtrade --some-options 2>&1 >/dev/null | grep 'something'
 ```
+
 (note, `2>&1` and `>/dev/null` should be written in this order)
 
-* Bash interpreter also supports so called process substitution syntax, you can grep the log for a string with it as:
+- Bash interpreter also supports so called process substitution syntax, you can grep the log for a string with it as:
+
 ```shell
 $ freqtrade --some-options 2> >(grep 'something') >/dev/null
 ```
+
 or
+
 ```shell
 $ freqtrade --some-options 2> >(grep -v 'something' 1>&2)
 ```
 
-* You can also write the copy of Freqtrade log messages to a file with the `--logfile` option:
+- You can also write the copy of Freqtrade log messages to a file with the `--logfile` option:
+
 ```shell
 $ freqtrade --logfile /path/to/mylogfile.log --some-options
 ```
+
 and then grep it as:
+
 ```shell
 $ cat /path/to/mylogfile.log | grep 'something'
 ```
+
 or even on the fly, as the bot works and the log file grows:
+
 ```shell
 $ tail -f /path/to/mylogfile.log | grep 'something'
 ```
+
 from a separate terminal window.
 
 On Windows, the `--logfile` option is also supported by Freqtrade and you can use the `findstr` command to search the log for the string of interest:
+
 ```
 > type \path\to\mylogfile.log | findstr "something"
 ```
@@ -248,15 +260,15 @@ freqtrade hyperopt --hyperopt-loss SharpeHyperOptLossDaily --strategy SampleStra
 
 ### Why does it take a long time to run hyperopt?
 
-* Discovering a great strategy with Hyperopt takes time. Study www.freqtrade.io, the Freqtrade Documentation page, join the Freqtrade [discord community](https://discord.gg/p7nuUNVfP7). While you patiently wait for the most advanced, free crypto bot in the world, to hand you a possible golden strategy specially designed just for you.
+- Discovering a great strategy with Hyperopt takes time. Study www.freqtrade.io, the Freqtrade Documentation page, join the Freqtrade [discord community](https://discord.gg/p7nuUNVfP7). While you patiently wait for the most advanced, free crypto bot in the world, to hand you a possible golden strategy specially designed just for you.
 
-* If you wonder why it can take from 20 minutes to days to do 1000 epochs here are some answers:
+- If you wonder why it can take from 20 minutes to days to do 1000 epochs here are some answers:
 
 This answer was written during the release 0.15.1, when we had:
 
-* 8 triggers
-* 9 guards: let's say we evaluate even 10 values from each
-* 1 stoploss calculation: let's say we want 10 values from that too to be evaluated
+- 8 triggers
+- 9 guards: let's say we evaluate even 10 values from each
+- 1 stoploss calculation: let's say we want 10 values from that too to be evaluated
 
 The following calculation is still very rough and not very precise
 but it will give the idea. With only these triggers and guards there is
@@ -264,7 +276,7 @@ already 8\*10^9\*10 evaluations. A roughly total of 80 billion evaluations.
 Did you run 100 000 evaluations? Congrats, you've done roughly 1 / 100 000 th
 of the search space, assuming that the bot never tests the same parameters more than once.
 
-* The time it takes to run 1000 hyperopt epochs depends on things like: The available cpu, hard-disk, ram, timeframe, timerange, indicator settings, indicator count, amount of coins that hyperopt test strategies on and the resulting trade count - which can be 650 trades in a year or 100000 trades depending if the strategy aims for big profits by trading rarely or for many low profit trades.
+- The time it takes to run 1000 hyperopt epochs depends on things like: The available cpu, hard-disk, ram, timeframe, timerange, indicator settings, indicator count, amount of coins that hyperopt test strategies on and the resulting trade count - which can be 650 trades in a year or 100000 trades depending if the strategy aims for big profits by trading rarely or for many low profit trades.
 
 Example: 4% profit 650 times vs 0,3% profit a trade 10000 times in a year. If we assume you set the --timerange to 365 days.
 
@@ -289,9 +301,9 @@ You can find further info on expectancy, win rate, risk management and position 
 
 Freqtrade is using exclusively the following official channels:
 
-* [Freqtrade discord server](https://discord.gg/p7nuUNVfP7)
-* [Freqtrade documentation (https://freqtrade.io)](https://freqtrade.io)
-* [Freqtrade github organization](https://github.com/freqtrade)
+- [Freqtrade discord server](https://discord.gg/p7nuUNVfP7)
+- [Freqtrade documentation (https://freqtrade.io)](https://freqtrade.io)
+- [Freqtrade github organization](https://github.com/freqtrade)
 
 Nobody affiliated with the freqtrade project will ask you about your exchange keys or anything else exposing your funds to exploitation.
 Should you be asked to expose your exchange keys or send funds to some random wallet, then please don't follow these instructions.

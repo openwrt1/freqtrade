@@ -5,7 +5,7 @@ freqtrade provides a mechanism whereby an instance (also called `consumer`) may 
 See [Message Websocket](rest-api.md#message-websocket) in the Rest API docs for setting up the `api_server` configuration for your message websocket (this will be your producer).
 
 !!! Note
-    We strongly recommend to set `ws_token` to something random and known only to yourself to avoid unauthorized access to your bot.
+We strongly recommend to set `ws_token` to something random and known only to yourself to avoid unauthorized access to your bot.
 
 ## Configuration
 
@@ -13,44 +13,44 @@ Enable subscribing to an instance by adding the `external_message_consumer` sect
 
 ```json
 {
-    //...
-   "external_message_consumer": {
-        "enabled": true,
-        "producers": [
-            {
-                "name": "default", // This can be any name you'd like, default is "default"
-                "host": "127.0.0.1", // The host from your producer's api_server config
-                "port": 8080, // The port from your producer's api_server config
-                "secure": false, // Use a secure websockets connection, default false
-                "ws_token": "sercet_Ws_t0ken" // The ws_token from your producer's api_server config
-            }
-        ],
-        // The following configurations are optional, and usually not required
-        // "wait_timeout": 300,
-        // "ping_timeout": 10,
-        // "sleep_time": 10,
-        // "remove_entry_exit_signals": false,
-        // "message_size_limit": 8
-    }
-    //...
+  //...
+  "external_message_consumer": {
+    "enabled": true,
+    "producers": [
+      {
+        "name": "default", // This can be any name you'd like, default is "default"
+        "host": "127.0.0.1", // The host from your producer's api_server config
+        "port": 8080, // The port from your producer's api_server config
+        "secure": false, // Use a secure websockets connection, default false
+        "ws_token": "sercet_Ws_t0ken" // The ws_token from your producer's api_server config
+      }
+    ]
+    // The following configurations are optional, and usually not required
+    // "wait_timeout": 300,
+    // "ping_timeout": 10,
+    // "sleep_time": 10,
+    // "remove_entry_exit_signals": false,
+    // "message_size_limit": 8
+  }
+  //...
 }
 ```
 
-|  Parameter | Description |
-|------------|-------------|
-| `enabled` | **Required.** Enable consumer mode. If set to false, all other settings in this section are ignored.<br>*Defaults to `false`.*<br> **Datatype:** boolean .
-| `producers` | **Required.** List of producers <br> **Datatype:** Array.
-| `producers.name` | **Required.** Name of this producer. This name must be used in calls to `get_producer_pairs()` and `get_producer_df()` if more than one producer is used.<br> **Datatype:** string
-| `producers.host` | **Required.** The hostname or IP address from your producer.<br> **Datatype:** string
-| `producers.port` | **Required.** The port matching the above host.<br>*Defaults to `8080`.*<br> **Datatype:** Integer
-| `producers.secure` | **Optional.**  Use ssl in websockets connection. Default False.<br> **Datatype:** string
-| `producers.ws_token` | **Required.**  `ws_token` as configured on the producer.<br> **Datatype:** string
-| | **Optional settings**
-| `wait_timeout` | Timeout until we ping again if no message is received. <br>*Defaults to `300`.*<br> **Datatype:** Integer - in seconds.
-| `ping_timeout` | Ping timeout <br>*Defaults to `10`.*<br> **Datatype:** Integer - in seconds.
-| `sleep_time` | Sleep time before retrying to connect.<br>*Defaults to `10`.*<br> **Datatype:** Integer - in seconds.
-| `remove_entry_exit_signals` | Remove signal columns from the dataframe (set them to 0) on dataframe receipt.<br>*Defaults to `false`.*<br> **Datatype:** Boolean.
-| `message_size_limit` | Size limit per message<br>*Defaults to `8`.*<br> **Datatype:** Integer - Megabytes.
+| Parameter                   | Description                                                                                                                                                                        |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `enabled`                   | **Required.** Enable consumer mode. If set to false, all other settings in this section are ignored.<br>_Defaults to `false`._<br> **Datatype:** boolean .                         |
+| `producers`                 | **Required.** List of producers <br> **Datatype:** Array.                                                                                                                          |
+| `producers.name`            | **Required.** Name of this producer. This name must be used in calls to `get_producer_pairs()` and `get_producer_df()` if more than one producer is used.<br> **Datatype:** string |
+| `producers.host`            | **Required.** The hostname or IP address from your producer.<br> **Datatype:** string                                                                                              |
+| `producers.port`            | **Required.** The port matching the above host.<br>_Defaults to `8080`._<br> **Datatype:** Integer                                                                                 |
+| `producers.secure`          | **Optional.** Use ssl in websockets connection. Default False.<br> **Datatype:** string                                                                                            |
+| `producers.ws_token`        | **Required.** `ws_token` as configured on the producer.<br> **Datatype:** string                                                                                                   |
+|                             | **Optional settings**                                                                                                                                                              |
+| `wait_timeout`              | Timeout until we ping again if no message is received. <br>_Defaults to `300`._<br> **Datatype:** Integer - in seconds.                                                            |
+| `ping_timeout`              | Ping timeout <br>_Defaults to `10`._<br> **Datatype:** Integer - in seconds.                                                                                                       |
+| `sleep_time`                | Sleep time before retrying to connect.<br>_Defaults to `10`._<br> **Datatype:** Integer - in seconds.                                                                              |
+| `remove_entry_exit_signals` | Remove signal columns from the dataframe (set them to 0) on dataframe receipt.<br>_Defaults to `false`._<br> **Datatype:** Boolean.                                                |
+| `message_size_limit`        | Size limit per message<br>_Defaults to `8`._<br> **Datatype:** Integer - Megabytes.                                                                                                |
 
 Instead of (or as well as) calculating indicators in `populate_indicators()` the follower instance listens on the connection to a producer instance's messages (or multiple producer instances in advanced configurations) and requests the producer's most recently analyzed dataframes for each pair in the active whitelist.
 
@@ -95,8 +95,7 @@ class ProducerStrategy(IStrategy):
 ```
 
 !!! Tip "FreqAI"
-    You can use this to setup [FreqAI](freqai.md) on a powerful machine, while you run consumers on simple machines like raspberries, which can interpret the signals generated from the producer in different ways.
-
+You can use this to setup [FreqAI](freqai.md) on a powerful machine, while you run consumers on simple machines like raspberries, which can interpret the signals generated from the producer in different ways.
 
 ### Example - Consumer Strategy
 
@@ -162,4 +161,4 @@ class ConsumerStrategy(IStrategy):
 ```
 
 !!! Tip "Using upstream signals"
-    By setting `remove_entry_exit_signals=false`, you can also use the producer's signals directly. They should be available as `enter_long_default` (assuming `suffix="default"` was used) - and can be used as either signal directly, or as additional indicator.
+By setting `remove_entry_exit_signals=false`, you can also use the producer's signals directly. They should be available as `enter_long_default` (assuming `suffix="default"` was used) - and can be used as either signal directly, or as additional indicator.

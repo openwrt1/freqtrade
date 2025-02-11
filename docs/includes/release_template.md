@@ -16,7 +16,7 @@ docker-compose up -d
 #### Installation via setup script
 
 ```
-# Deactivate venv and run 
+# Deactivate venv and run
 ./setup.sh --update
 ```
 

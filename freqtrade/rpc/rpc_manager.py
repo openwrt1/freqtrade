@@ -18,9 +18,13 @@ class RPCManager:
     """
     Class to manage RPC objects (Telegram, API, ...)
     """
+    _instance = None
 
     def __init__(self, freqtrade) -> None:
         """Initializes all enabled rpc modules"""
+        if RPCManager._instance is None:
+            RPCManager._instance = self
+
         self.registered_modules: list[RPCHandler] = []
         self._rpc = RPC(freqtrade)
         config = freqtrade.config
@@ -53,6 +57,11 @@ class RPCManager:
             apiserver = ApiServer(config)
             apiserver.add_rpc_handler(self._rpc)
             self.registered_modules.append(apiserver)
+    @staticmethod
+    def get_instance():
+        if RPCManager._instance is None:
+            raise ValueError("RPCManager instance not initialized")
+        return RPCManager._instance
 
     def cleanup(self) -> None:
         """Stops all enabled rpc modules"""

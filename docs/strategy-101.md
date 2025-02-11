@@ -1,6 +1,6 @@
 # Freqtrade Strategies 101: A Quick Start for Strategy Development
 
-For the purposes of this quick start, we are assuming you are familiar with the basics of trading, and have read the 
+For the purposes of this quick start, we are assuming you are familiar with the basics of trading, and have read the
 [Freqtrade basics](bot-basics.md) page.
 
 ## Required Knowledge
@@ -47,8 +47,8 @@ dataframe['rsi'] = ta.RSI(dataframe)
 ```
 
 ??? Hint "Technical Analysis libraries"
-    Different libraries work in different ways to generate indicator values. Please check the documentation of each library to understand
-    how to integrate it into your strategy. You can also check the [Freqtrade example strategies](https://github.com/freqtrade/freqtrade-strategies) to give you ideas.
+Different libraries work in different ways to generate indicator values. Please check the documentation of each library to understand
+how to integrate it into your strategy. You can also check the [Freqtrade example strategies](https://github.com/freqtrade/freqtrade-strategies) to give you ideas.
 
 ### Populate entry signals
 
@@ -57,7 +57,7 @@ The `populate_entry_trend` function defines conditions for an entry signal.
 The dataframe column `enter_long` is added to the dataframe, and when a value of `1` is in this column, Freqtrade sees an entry signal.
 
 ??? Hint "Shorting"
-    To enter short trades, use the `enter_short` column.
+To enter short trades, use the `enter_short` column.
 
 ### Populate exit signals
 
@@ -66,7 +66,7 @@ The `populate_exit_trend` function defines conditions for an exit signal.
 The dataframe column `exit_long` is added to the dataframe, and when a value of `1` is in this column, Freqtrade sees an exit signal.
 
 ??? Hint "Shorting"
-    To exit short trades, use the `exit_short` column.
+To exit short trades, use the `exit_short` column.
 
 ## A simple strategy
 
@@ -141,11 +141,11 @@ Freqtrade has two testing modes:
 Dry runs are enabled by setting `dry_run` to true in your [configuration](configuration.md#using-dry-run-mode).
 
 !!! Warning "Backtests can be very inaccurate"
-    There are many reasons why backtest results may not match reality. Please check the [backtesting assumptions](backtesting.md#assumptions-made-by-backtesting) and [common strategy mistakes](strategy-customization.md#common-mistakes-when-developing-strategies) documentation.
-    Some websites that list and rank Freqtrade strategies show impressive backtest results. Do not assume these results are achieveable or realistic.
+There are many reasons why backtest results may not match reality. Please check the [backtesting assumptions](backtesting.md#assumptions-made-by-backtesting) and [common strategy mistakes](strategy-customization.md#common-mistakes-when-developing-strategies) documentation.
+Some websites that list and rank Freqtrade strategies show impressive backtest results. Do not assume these results are achieveable or realistic.
 
 ??? Hint "Useful commands"
-    Freqtrade includes two useful commands to check for basic flaws in strategies: [lookahead-analysis](lookahead-analysis.md) and [recursive-analysis](recursive-analysis.md).
+Freqtrade includes two useful commands to check for basic flaws in strategies: [lookahead-analysis](lookahead-analysis.md) and [recursive-analysis](recursive-analysis.md).
 
 ### Assessing backtesting and dry run results
 
@@ -158,7 +158,7 @@ If there is any significant difference, verify that your entry and exit signals 
   This is because when new candles come in on your main timeframe, e.g. every 5 minutes, it takes time for Freqtrade to analyse all pair dataframes. Therefore, Freqtrade will attempt to open trades a few seconds (ideally a small a delay as possible)
   after candle open.
 - As entry rates in dry runs might not match backtesting, this means profit calculations will also differ. Therefore, it is normal if ROI, stoploss, trailing stoploss and callback exits are not identical.
-- The more computational "lag" you have between new candles coming in and your signals being raised and trades being opened will result in greater price unpredictability. Make sure your computer is powerful enough to process the data for the number 
+- The more computational "lag" you have between new candles coming in and your signals being raised and trades being opened will result in greater price unpredictability. Make sure your computer is powerful enough to process the data for the number
   of pairs you have in your pairlist within a reasonable time. Freqtrade will warn you in the logs if there are significant data processing delays.
 
 ## Controlling or monitoring a running bot

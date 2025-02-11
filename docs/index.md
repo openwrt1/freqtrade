@@ -6,6 +6,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/5737e6d668200b7518ff/maintainability)](https://codeclimate.com/github/freqtrade/freqtrade/maintainability)
 
 <!-- Place this tag where you want the button to render. -->
+
 <a class="github-button" href="https://github.com/freqtrade/freqtrade" data-icon="octicon-star" data-size="large" aria-label="Star freqtrade/freqtrade on GitHub">Star</a>
 <a class="github-button" href="https://github.com/freqtrade/freqtrade/fork" data-icon="octicon-repo-forked" data-size="large" aria-label="Fork freqtrade/freqtrade on GitHub">Fork</a>
 <a class="github-button" href="https://github.com/freqtrade/freqtrade/archive/stable.zip" data-icon="octicon-cloud-download" data-size="large" aria-label="Download freqtrade/freqtrade on GitHub">Download</a>
@@ -15,7 +16,7 @@
 Freqtrade is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
 
 !!! Danger "DISCLAIMER"
-    This software is for educational purposes only. Do not risk money which you are afraid to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS.
+This software is for educational purposes only. Do not risk money which you are afraid to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS.
 
     Always start by running a trading bot in Dry-run and do not engage money before you understand how it works and what profit/loss you should expect.
 
@@ -39,25 +40,25 @@ Freqtrade is a free and open source crypto trading bot written in Python. It is 
 
 Please read the [exchange specific notes](exchanges.md) to learn about eventual, special configurations needed for each exchange.
 
-- [X] [Binance](https://www.binance.com/)
-- [X] [BingX](https://bingx.com/invite/0EM9RX)
-- [X] [Bitmart](https://bitmart.com/)
-- [X] [Bybit](https://bybit.com/)
-- [X] [Gate.io](https://www.gate.io/ref/6266643)
-- [X] [HTX](https://www.htx.com/)
-- [X] [Hyperliquid](https://hyperliquid.xyz/) (A decentralized exchange, or DEX)
-- [X] [Kraken](https://kraken.com/)
-- [X] [OKX](https://okx.com/)
-- [X] [MyOKX](https://okx.com/) (OKX EEA)
+- [x] [Binance](https://www.binance.com/)
+- [x] [BingX](https://bingx.com/invite/0EM9RX)
+- [x] [Bitmart](https://bitmart.com/)
+- [x] [Bybit](https://bybit.com/)
+- [x] [Gate.io](https://www.gate.io/ref/6266643)
+- [x] [HTX](https://www.htx.com/)
+- [x] [Hyperliquid](https://hyperliquid.xyz/) (A decentralized exchange, or DEX)
+- [x] [Kraken](https://kraken.com/)
+- [x] [OKX](https://okx.com/)
+- [x] [MyOKX](https://okx.com/) (OKX EEA)
 - [ ] [potentially many others through <img alt="ccxt" width="30px" src="assets/ccxt-logo.svg" />](https://github.com/ccxt/ccxt/). _(We cannot guarantee they will work)_
 
 ### Supported Futures Exchanges (experimental)
 
-- [X] [Binance](https://www.binance.com/)
-- [X] [Bybit](https://bybit.com/)
-- [X] [Gate.io](https://www.gate.io/ref/6266643)
-- [X] [Hyperliquid](https://hyperliquid.xyz/) (A decentralized exchange, or DEX)
-- [X] [OKX](https://okx.com/)
+- [x] [Binance](https://www.binance.com/)
+- [x] [Bybit](https://bybit.com/)
+- [x] [Gate.io](https://www.gate.io/ref/6266643)
+- [x] [Hyperliquid](https://hyperliquid.xyz/) (A decentralized exchange, or DEX)
+- [x] [OKX](https://okx.com/)
 
 Please make sure to read the [exchange specific notes](exchanges.md), as well as the [trading with leverage](leverage.md) documentation before diving in.
 
@@ -65,8 +66,8 @@ Please make sure to read the [exchange specific notes](exchanges.md), as well as
 
 Exchanges confirmed working by the community:
 
-- [X] [Bitvavo](https://bitvavo.com/)
-- [X] [Kucoin](https://www.kucoin.com/)
+- [x] [Bitvavo](https://bitvavo.com/)
+- [x] [Kucoin](https://www.kucoin.com/)
 
 ## Community showcase
 

@@ -3,18 +3,18 @@
 This page explains how to plot prices, indicators and profits.
 
 !!! Warning "Deprecated"
-    The commands described in this page (`plot-dataframe`, `plot-profit`) should be considered deprecated and are in maintenance mode.
-    This is mostly for the performance problems even medium sized plots can cause, but also because "store a file and open it in a browser" isn't very intuitive from a UI perspective.
+The commands described in this page (`plot-dataframe`, `plot-profit`) should be considered deprecated and are in maintenance mode.
+This is mostly for the performance problems even medium sized plots can cause, but also because "store a file and open it in a browser" isn't very intuitive from a UI perspective.
 
     While there are no immediate plans to remove them, they are not actively maintained - and may be removed short-term should major changes be required to keep them working.
-    
+
     Please use [FreqUI](freq-ui.md) for plotting needs, which doesn't struggle with the same performance problems.
 
 ## Installation / Setup
 
 Plotting modules use the Plotly library. You can install / upgrade this by running the following command:
 
-``` bash
+```bash
 pip install -U -r requirements-plot.txt
 ```
 
@@ -22,9 +22,9 @@ pip install -U -r requirements-plot.txt
 
 The `freqtrade plot-dataframe` subcommand shows an interactive graph with three subplots:
 
-* Main plot with candlesticks and indicators following price (sma/ema)
-* Volume bars
-* Additional indicators as specified by `--indicators2`
+- Main plot with candlesticks and indicators following price (sma/ema)
+- Volume bars
+- Additional indicators as specified by `--indicators2`
 
 ![plot-dataframe](assets/plot-dataframe.png)
 
@@ -34,19 +34,19 @@ Possible arguments:
 
 Example:
 
-``` bash
+```bash
 freqtrade plot-dataframe -p BTC/ETH --strategy AwesomeStrategy
 ```
 
 The `-p/--pairs` argument can be used to specify pairs you would like to plot.
 
 !!! Note
-    The `freqtrade plot-dataframe` subcommand generates one plot-file per pair.
+The `freqtrade plot-dataframe` subcommand generates one plot-file per pair.
 
 Specify custom indicators.
 Use `--indicators1` for the main plot and `--indicators2` for the subplot below (if values are in a different range than prices).
 
-``` bash
+```bash
 freqtrade plot-dataframe --strategy AwesomeStrategy -p BTC/ETH --indicators1 sma ema --indicators2 macd
 ```
 
@@ -54,25 +54,25 @@ freqtrade plot-dataframe --strategy AwesomeStrategy -p BTC/ETH --indicators1 sma
 
 To plot multiple pairs, separate them with a space:
 
-``` bash
+```bash
 freqtrade plot-dataframe --strategy AwesomeStrategy -p BTC/ETH XRP/ETH
 ```
 
 To plot a timerange (to zoom in)
 
-``` bash
+```bash
 freqtrade plot-dataframe --strategy AwesomeStrategy -p BTC/ETH --timerange=20180801-20180805
 ```
 
 To plot trades stored in a database use `--db-url` in combination with `--trade-source DB`:
 
-``` bash
+```bash
 freqtrade plot-dataframe --strategy AwesomeStrategy --db-url sqlite:///tradesv3.dry_run.sqlite -p BTC/ETH --trade-source DB
 ```
 
 To plot trades from a backtesting result, use `--export-filename <filename>`
 
-``` bash
+```bash
 freqtrade plot-dataframe --strategy AwesomeStrategy --export-filename user_data/backtest_results/backtest-result.json -p BTC/ETH
 ```
 
@@ -84,17 +84,17 @@ The `plot-dataframe` subcommand requires backtesting data, a strategy and either
 
 The resulting plot will have the following elements:
 
-* Green triangles: Buy signals from the strategy. (Note: not every buy signal generates a trade, compare to cyan circles.)
-* Red triangles: Sell signals from the strategy. (Also, not every sell signal terminates a trade, compare to red and green squares.)
-* Cyan circles: Trade entry points.
-* Red squares: Trade exit points for trades with loss or 0% profit.
-* Green squares: Trade exit points for profitable trades.
-* Indicators with values corresponding to the candle scale (e.g. SMA/EMA), as specified with `--indicators1`.
-* Volume (bar chart at the bottom of the main chart).
-* Indicators with values in different scales (e.g. MACD, RSI) below the volume bars, as specified with `--indicators2`.
+- Green triangles: Buy signals from the strategy. (Note: not every buy signal generates a trade, compare to cyan circles.)
+- Red triangles: Sell signals from the strategy. (Also, not every sell signal terminates a trade, compare to red and green squares.)
+- Cyan circles: Trade entry points.
+- Red squares: Trade exit points for trades with loss or 0% profit.
+- Green squares: Trade exit points for profitable trades.
+- Indicators with values corresponding to the candle scale (e.g. SMA/EMA), as specified with `--indicators1`.
+- Volume (bar chart at the bottom of the main chart).
+- Indicators with values in different scales (e.g. MACD, RSI) below the volume bars, as specified with `--indicators2`.
 
 !!! Note "Bollinger Bands"
-    Bollinger bands are automatically added to the plot if the columns `bb_lowerband` and `bb_upperband` exist, and are painted as a light blue area spanning from the lower band to the upper band.
+Bollinger bands are automatically added to the plot if the columns `bb_lowerband` and `bb_upperband` exist, and are painted as a light blue area spanning from the lower band to the upper band.
 
 #### Advanced plot configuration
 
@@ -102,23 +102,23 @@ An advanced plot configuration can be specified in the strategy in the `plot_con
 
 Additional features when using `plot_config` include:
 
-* Specify colors per indicator
-* Specify additional subplots
-* Specify indicator pairs to fill area in between
+- Specify colors per indicator
+- Specify additional subplots
+- Specify indicator pairs to fill area in between
 
 The sample plot configuration below specifies fixed colors for the indicators. Otherwise, consecutive plots may produce different color schemes each time, making comparisons difficult.
 It also allows multiple subplots to display both MACD and RSI at the same time.
 
 Plot type can be configured using `type` key. Possible types are:
 
-* `scatter` corresponding to `plotly.graph_objects.Scatter` class (default).
-* `bar` corresponding to `plotly.graph_objects.Bar` class.
+- `scatter` corresponding to `plotly.graph_objects.Scatter` class (default).
+- `bar` corresponding to `plotly.graph_objects.Bar` class.
 
 Extra parameters to `plotly.graph_objects.*` constructor can be specified in `plotly` dict.
 
 Sample configuration with inline comments explaining the process:
 
-``` python
+```python
 @property
 def plot_config(self):
     """
@@ -163,8 +163,8 @@ def plot_config(self):
 ```
 
 ??? Note "As attribute (former method)"
-    Assigning plot_config is also possible as Attribute (this used to be the default way).
-    This has the disadvantage that strategy parameters are not available, preventing certain configurations from working.
+Assigning plot_config is also possible as Attribute (this used to be the default way).
+This has the disadvantage that strategy parameters are not available, preventing certain configurations from working.
 
     ``` python
         plot_config = {
@@ -201,16 +201,15 @@ def plot_config(self):
 
     ```
 
-
 !!! Note
-    The above configuration assumes that `ema10`, `ema50`, `senkou_a`, `senkou_b`,
-    `macd`, `macdsignal`, `macdhist` and `rsi` are columns in the DataFrame created by the strategy.
+The above configuration assumes that `ema10`, `ema50`, `senkou_a`, `senkou_b`,
+`macd`, `macdsignal`, `macdhist` and `rsi` are columns in the DataFrame created by the strategy.
 
 !!! Warning
-    `plotly` arguments are only supported with plotly library and will not work with freq-ui.
+`plotly` arguments are only supported with plotly library and will not work with freq-ui.
 
 !!! Note "Trade position adjustments"
-    If `position_adjustment_enable` / `adjust_trade_position()` is used, the trade initial buy price is averaged over multiple orders and the trade start price will most likely appear outside the candle range.
+If `position_adjustment_enable` / `adjust_trade_position()` is used, the trade initial buy price is averaged over multiple orders and the trade start price will most likely appear outside the candle range.
 
 ## Plot profit
 
@@ -218,12 +217,12 @@ def plot_config(self):
 
 The `plot-profit` subcommand shows an interactive graph with three plots:
 
-* Average closing price for all pairs.
-* The summarized profit made by backtesting.
-Note that this is not the real-world profit, but more of an estimate.
-* Profit for each individual pair.
-* Parallelism of trades.
-* Underwater (Periods of drawdown).
+- Average closing price for all pairs.
+- The summarized profit made by backtesting.
+  Note that this is not the real-world profit, but more of an estimate.
+- Profit for each individual pair.
+- Parallelism of trades.
+- Underwater (Periods of drawdown).
 
 The first graph is good to get a grip of how the overall market progresses.
 
@@ -239,22 +238,22 @@ Possible options for the `freqtrade plot-profit` subcommand:
 
 --8<-- "commands/plot-profit.md"
 
-The `-p/--pairs`  argument, can be used to limit the pairs that are considered for this calculation.
+The `-p/--pairs` argument, can be used to limit the pairs that are considered for this calculation.
 
 Examples:
 
 Use custom backtest-export file
 
-``` bash
+```bash
 freqtrade plot-profit  -p LTC/BTC --export-filename user_data/backtest_results/backtest-result.json
 ```
 
 Use custom database
 
-``` bash
+```bash
 freqtrade plot-profit  -p LTC/BTC --db-url sqlite:///tradesv3.sqlite --trade-source DB
 ```
 
-``` bash
+```bash
 freqtrade --datadir user_data/data/binance_save/ plot-profit -p LTC/BTC
 ```

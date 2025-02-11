@@ -122,144 +122,144 @@ Different payloads can be configured for different events. Not all fields are ne
 The fields in `webhook.entry` are filled when the bot executes a long/short. Parameters are filled using string.format.
 Possible parameters are:
 
-* `trade_id`
-* `exchange`
-* `pair`
-* `direction`
-* `leverage`
-* ~~`limit` # Deprecated - should no longer be used.~~
-* `open_rate`
-* `amount`
-* `open_date`
-* `stake_amount`
-* `stake_currency`
-* `base_currency`
-* `quote_currency`
-* `fiat_currency`
-* `order_type`
-* `current_rate`
-* `enter_tag`
+- `trade_id`
+- `exchange`
+- `pair`
+- `direction`
+- `leverage`
+- ~~`limit` # Deprecated - should no longer be used.~~
+- `open_rate`
+- `amount`
+- `open_date`
+- `stake_amount`
+- `stake_currency`
+- `base_currency`
+- `quote_currency`
+- `fiat_currency`
+- `order_type`
+- `current_rate`
+- `enter_tag`
 
 ### Entry cancel
 
 The fields in `webhook.entry_cancel` are filled when the bot cancels a long/short order. Parameters are filled using string.format.
 Possible parameters are:
 
-* `trade_id`
-* `exchange`
-* `pair`
-* `direction`
-* `leverage`
-* `limit`
-* `amount`
-* `open_date`
-* `stake_amount`
-* `stake_currency`
-* `base_currency`
-* `quote_currency`
-* `fiat_currency`
-* `order_type`
-* `current_rate`
-* `enter_tag`
+- `trade_id`
+- `exchange`
+- `pair`
+- `direction`
+- `leverage`
+- `limit`
+- `amount`
+- `open_date`
+- `stake_amount`
+- `stake_currency`
+- `base_currency`
+- `quote_currency`
+- `fiat_currency`
+- `order_type`
+- `current_rate`
+- `enter_tag`
 
 ### Entry fill
 
 The fields in `webhook.entry_fill` are filled when the bot filled a long/short order. Parameters are filled using string.format.
 Possible parameters are:
 
-* `trade_id`
-* `exchange`
-* `pair`
-* `direction`
-* `leverage`
-* `open_rate`
-* `amount`
-* `open_date`
-* `stake_amount`
-* `stake_currency`
-* `base_currency`
-* `quote_currency`
-* `fiat_currency`
-* `order_type`
-* `current_rate`
-* `enter_tag`
+- `trade_id`
+- `exchange`
+- `pair`
+- `direction`
+- `leverage`
+- `open_rate`
+- `amount`
+- `open_date`
+- `stake_amount`
+- `stake_currency`
+- `base_currency`
+- `quote_currency`
+- `fiat_currency`
+- `order_type`
+- `current_rate`
+- `enter_tag`
 
 ### Exit
 
 The fields in `webhook.exit` are filled when the bot exits a trade. Parameters are filled using string.format.
 Possible parameters are:
 
-* `trade_id`
-* `exchange`
-* `pair`
-* `direction`
-* `leverage`
-* `gain`
-* `limit`
-* `amount`
-* `open_rate`
-* `profit_amount`
-* `profit_ratio`
-* `stake_currency`
-* `base_currency`
-* `quote_currency`
-* `fiat_currency`
-* `exit_reason`
-* `order_type`
-* `open_date`
-* `close_date`
+- `trade_id`
+- `exchange`
+- `pair`
+- `direction`
+- `leverage`
+- `gain`
+- `limit`
+- `amount`
+- `open_rate`
+- `profit_amount`
+- `profit_ratio`
+- `stake_currency`
+- `base_currency`
+- `quote_currency`
+- `fiat_currency`
+- `exit_reason`
+- `order_type`
+- `open_date`
+- `close_date`
 
 ### Exit fill
 
 The fields in `webhook.exit_fill` are filled when the bot fills a exit order (closes a Trade). Parameters are filled using string.format.
 Possible parameters are:
 
-* `trade_id`
-* `exchange`
-* `pair`
-* `direction`
-* `leverage`
-* `gain`
-* `close_rate`
-* `amount`
-* `open_rate`
-* `current_rate`
-* `profit_amount`
-* `profit_ratio`
-* `stake_currency`
-* `base_currency`
-* `quote_currency`
-* `fiat_currency`
-* `exit_reason`
-* `order_type`
-* `open_date`
-* `close_date`
+- `trade_id`
+- `exchange`
+- `pair`
+- `direction`
+- `leverage`
+- `gain`
+- `close_rate`
+- `amount`
+- `open_rate`
+- `current_rate`
+- `profit_amount`
+- `profit_ratio`
+- `stake_currency`
+- `base_currency`
+- `quote_currency`
+- `fiat_currency`
+- `exit_reason`
+- `order_type`
+- `open_date`
+- `close_date`
 
 ### Exit cancel
 
 The fields in `webhook.exit_cancel` are filled when the bot cancels a exit order. Parameters are filled using string.format.
 Possible parameters are:
 
-* `trade_id`
-* `exchange`
-* `pair`
-* `direction`
-* `leverage`
-* `gain`
-* `limit`
-* `amount`
-* `open_rate`
-* `current_rate`
-* `profit_amount`
-* `profit_ratio`
-* `stake_currency`
-* `base_currency`
-* `quote_currency`
-* `fiat_currency`
-* `exit_reason`
-* `order_type`
-* `open_date`
-* `close_date`
+- `trade_id`
+- `exchange`
+- `pair`
+- `direction`
+- `leverage`
+- `gain`
+- `limit`
+- `amount`
+- `open_rate`
+- `current_rate`
+- `profit_amount`
+- `profit_ratio`
+- `stake_currency`
+- `base_currency`
+- `quote_currency`
+- `fiat_currency`
+- `exit_reason`
+- `order_type`
+- `open_date`
+- `close_date`
 
 ### Status
 

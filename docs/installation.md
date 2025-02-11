@@ -4,14 +4,14 @@ This page explains how to prepare your environment for running the bot.
 
 The freqtrade documentation describes various ways to install freqtrade
 
-* [Docker images](docker_quickstart.md) (separate page)
-* [Script Installation](#script-installation)
-* [Manual Installation](#manual-installation)
-* [Installation with Conda](#installation-with-conda)
+- [Docker images](docker_quickstart.md) (separate page)
+- [Script Installation](#script-installation)
+- [Manual Installation](#manual-installation)
+- [Installation with Conda](#installation-with-conda)
 
 Please consider using the prebuilt [docker images](docker_quickstart.md) to get started quickly while evaluating how freqtrade works.
 
-------
+---
 
 ## Information
 
@@ -20,33 +20,33 @@ For Windows installation, please use the [windows installation guide](windows_in
 The easiest way to install and run Freqtrade is to clone the bot Github repository and then run the `./setup.sh` script, if it's available for your platform.
 
 !!! Note "Version considerations"
-    When cloning the repository the default working branch has the name `develop`. This branch contains all last features (can be considered as relatively stable, thanks to automated tests).
-    The `stable` branch contains the code of the last release (done usually once per month on an approximately one week old snapshot of the `develop` branch to prevent packaging bugs, so potentially it's more stable).
+When cloning the repository the default working branch has the name `develop`. This branch contains all last features (can be considered as relatively stable, thanks to automated tests).
+The `stable` branch contains the code of the last release (done usually once per month on an approximately one week old snapshot of the `develop` branch to prevent packaging bugs, so potentially it's more stable).
 
 !!! Note
-    Python3.10 or higher and the corresponding `pip` are assumed to be available. The install-script will warn you and stop if that's not the case. `git` is also needed to clone the Freqtrade repository.  
-    Also, python headers (`python<yourversion>-dev` / `python<yourversion>-devel`) must be available for the installation to complete successfully.
+Python3.10 or higher and the corresponding `pip` are assumed to be available. The install-script will warn you and stop if that's not the case. `git` is also needed to clone the Freqtrade repository.  
+ Also, python headers (`python<yourversion>-dev` / `python<yourversion>-devel`) must be available for the installation to complete successfully.
 
 !!! Warning "Up-to-date clock"
-    The clock on the system running the bot must be accurate, synchronized to a NTP server frequently enough to avoid problems with communication to the exchanges.
+The clock on the system running the bot must be accurate, synchronized to a NTP server frequently enough to avoid problems with communication to the exchanges.
 
-------
+---
 
 ## Requirements
 
 These requirements apply to both [Script Installation](#script-installation) and [Manual Installation](#manual-installation).
 
 !!! Note "ARM64 systems"
-    If you are running an ARM64 system (like a MacOS M1 or an Oracle VM), please use [docker](docker_quickstart.md) to run freqtrade.
-    While native installation is possible with some manual effort, this is not supported at the moment.
+If you are running an ARM64 system (like a MacOS M1 or an Oracle VM), please use [docker](docker_quickstart.md) to run freqtrade.
+While native installation is possible with some manual effort, this is not supported at the moment.
 
 ### Install guide
 
-* [Python >= 3.10](http://docs.python-guide.org/en/latest/starting/installation/)
-* [pip](https://pip.pypa.io/en/stable/installing/)
-* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-* [virtualenv](https://virtualenv.pypa.io/en/stable/installation.html) (Recommended)
-* [TA-Lib](https://ta-lib.github.io/ta-lib-python/) (install instructions [below](#install-ta-lib))
+- [Python >= 3.10](http://docs.python-guide.org/en/latest/starting/installation/)
+- [pip](https://pip.pypa.io/en/stable/installing/)
+- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [virtualenv](https://virtualenv.pypa.io/en/stable/installation.html) (Recommended)
+- [TA-Lib](https://ta-lib.github.io/ta-lib-python/) (install instructions [below](#install-ta-lib))
 
 ### Install code
 
@@ -54,10 +54,9 @@ We've included/collected install instructions for Ubuntu, MacOS, and Windows. Th
 OS Specific steps are listed first, the common section below is necessary for all systems.
 
 !!! Note
-    Python3.10 or higher and the corresponding pip are assumed to be available.
+Python3.10 or higher and the corresponding pip are assumed to be available.
 
-=== "Debian/Ubuntu"
-    #### Install necessary dependencies
+=== "Debian/Ubuntu" #### Install necessary dependencies
 
     ```bash
     # update repository
@@ -67,8 +66,7 @@ OS Specific steps are listed first, the common section below is necessary for al
     sudo apt install -y python3-pip python3-venv python3-dev python3-pandas git curl
     ```
 
-=== "MacOS"
-    #### Install necessary dependencies
+=== "MacOS" #### Install necessary dependencies
 
     Install [Homebrew](https://brew.sh/) if you don't have it already.
 
@@ -80,8 +78,8 @@ OS Specific steps are listed first, the common section below is necessary for al
         The `setup.sh` script will install these dependencies for you - assuming brew is installed on your system.
 
 === "RaspberryPi/Raspbian"
-    The following assumes the latest [Raspbian Buster lite image](https://www.raspberrypi.org/downloads/raspbian/).
-    This image comes with python3.11 preinstalled, making it easy to get freqtrade up and running.
+The following assumes the latest [Raspbian Buster lite image](https://www.raspberrypi.org/downloads/raspbian/).
+This image comes with python3.11 preinstalled, making it easy to get freqtrade up and running.
 
     Tested using a Raspberry Pi 3 with the Raspbian Buster lite image, all updates applied.
 
@@ -105,7 +103,7 @@ OS Specific steps are listed first, the common section below is necessary for al
         The above does not install hyperopt dependencies. To install these, please use `python3 -m pip install -e .[hyperopt]`.
         We do not advise to run hyperopt on a Raspberry Pi, since this is a very resource-heavy operation, which should be done on powerful machine.
 
-------
+---
 
 ## Freqtrade repository
 
@@ -130,13 +128,13 @@ git checkout develop
 You may later switch between branches at any time with the `git checkout stable`/`git checkout develop` commands.
 
 ??? Note "Install from pypi"
-    An alternative way to install Freqtrade is from [pypi](https://pypi.org/project/freqtrade/). The downside is that this method requires ta-lib to be correctly installed beforehand, and is therefore currently not the recommended way to install Freqtrade.
+An alternative way to install Freqtrade is from [pypi](https://pypi.org/project/freqtrade/). The downside is that this method requires ta-lib to be correctly installed beforehand, and is therefore currently not the recommended way to install Freqtrade.
 
     ``` bash
     pip install freqtrade
     ```
 
-------
+---
 
 ## Script Installation
 
@@ -195,7 +193,7 @@ This option will pull the last version of your current branch and update your vi
 This option will hard reset your branch (only if you are on either `stable` or `develop`) and recreate your virtualenv.
 ```
 
------
+---
 
 ## Manual Installation
 
@@ -210,7 +208,7 @@ sudo ./build_helpers/install_ta-lib.sh
 ```
 
 !!! Note
-    This will use the ta-lib tar.gz included in this repository.
+This will use the ta-lib tar.gz included in this repository.
 
 ##### TA-Lib manual installation
 
@@ -225,7 +223,7 @@ sed -i.bak "s|0.00000001|0.000000000000000001 |g" src/ta_func/ta_utility.h
 make
 sudo make install
 # On debian based systems (debian, ubuntu, ...) - updating ldconfig might be necessary.
-sudo ldconfig  
+sudo ldconfig
 cd ..
 rm -rf ./ta-lib*
 ```
@@ -255,12 +253,12 @@ python3 -m pip install -e .
 
 ### (Optional) Post-installation Tasks
 
-!!! Note 
-    If you run the bot on a server, you should consider using [Docker](docker_quickstart.md) or a terminal multiplexer like `screen` or [`tmux`](https://en.wikipedia.org/wiki/Tmux) to avoid that the bot is stopped on logout.
+!!! Note
+If you run the bot on a server, you should consider using [Docker](docker_quickstart.md) or a terminal multiplexer like `screen` or [`tmux`](https://en.wikipedia.org/wiki/Tmux) to avoid that the bot is stopped on logout.
 
 On Linux with software suite `systemd`, as an optional post-installation task, you may wish to setup the bot to run as a `systemd service` or configure it to send the log messages to the `syslog`/`rsyslog` or `journald` daemons. See [Advanced Logging](advanced-setup.md#advanced-logging) for details.
 
-------
+---
 
 ## Installation with Conda
 
@@ -289,7 +287,7 @@ Download and install freqtrade.
 git clone https://github.com/freqtrade/freqtrade.git
 
 # enter downloaded directory 'freqtrade'
-cd freqtrade      
+cd freqtrade
 ```
 
 #### Freqtrade install: Conda Environment
@@ -299,7 +297,7 @@ conda create --name freqtrade python=3.12
 ```
 
 !!! Note "Creating Conda Environment"
-    The conda command `create -n` automatically installs all nested dependencies for the selected libraries, general structure of installation command is:
+The conda command `create -n` automatically installs all nested dependencies for the selected libraries, general structure of installation command is:
 
     ```bash
     # choose your own packages
@@ -357,17 +355,17 @@ conda activate
 conda activate freqtrade
 
 #deactivate any conda environments
-conda deactivate                              
+conda deactivate
 ```
 
 ### Further info on anaconda
 
 !!! Info "New heavy packages"
-    It may happen that creating a new Conda environment, populated with selected packages at the moment of creation takes less time than installing a large, heavy library or application, into previously set environment.
+It may happen that creating a new Conda environment, populated with selected packages at the moment of creation takes less time than installing a large, heavy library or application, into previously set environment.
 
 !!! Warning "pip install within conda"
-    The documentation of conda says that pip should NOT be used within conda, because internal problems can occur.
-    However, they are rare. [Anaconda Blogpost](https://www.anaconda.com/blog/using-pip-in-a-conda-environment)
+The documentation of conda says that pip should NOT be used within conda, because internal problems can occur.
+However, they are rare. [Anaconda Blogpost](https://www.anaconda.com/blog/using-pip-in-a-conda-environment)
 
     Nevertheless, that is why, the `conda-forge` channel is preferred:
 
@@ -377,7 +375,7 @@ conda deactivate
 
 Happy trading!
 
------
+---
 
 ## You are ready
 
@@ -404,9 +402,9 @@ freqtrade trade --config user_data/config.json --strategy SampleStrategy
 ```
 
 !!! Warning
-    You should read through the rest of the documentation, backtest the strategy you're going to use, and use dry-run before enabling trading with real money.
+You should read through the rest of the documentation, backtest the strategy you're going to use, and use dry-run before enabling trading with real money.
 
------
+---
 
 ## Troubleshooting
 

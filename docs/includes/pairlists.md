@@ -20,25 +20,25 @@ You may also use something like `.*DOWN/BTC` or `.*UP/BTC` to exclude leveraged 
 
 ### Available Pairlist Handlers
 
-* [`StaticPairList`](#static-pair-list) (default, if not configured differently)
-* [`VolumePairList`](#volume-pair-list)
-* [`PercentChangePairList`](#percent-change-pair-list)
-* [`ProducerPairList`](#producerpairlist)
-* [`RemotePairList`](#remotepairlist)
-* [`MarketCapPairList`](#marketcappairlist)
-* [`AgeFilter`](#agefilter)
-* [`FullTradesFilter`](#fulltradesfilter)
-* [`OffsetFilter`](#offsetfilter)
-* [`PerformanceFilter`](#performancefilter)
-* [`PrecisionFilter`](#precisionfilter)
-* [`PriceFilter`](#pricefilter)
-* [`ShuffleFilter`](#shufflefilter)
-* [`SpreadFilter`](#spreadfilter)
-* [`RangeStabilityFilter`](#rangestabilityfilter)
-* [`VolatilityFilter`](#volatilityfilter)
+- [`StaticPairList`](#static-pair-list) (default, if not configured differently)
+- [`VolumePairList`](#volume-pair-list)
+- [`PercentChangePairList`](#percent-change-pair-list)
+- [`ProducerPairList`](#producerpairlist)
+- [`RemotePairList`](#remotepairlist)
+- [`MarketCapPairList`](#marketcappairlist)
+- [`AgeFilter`](#agefilter)
+- [`FullTradesFilter`](#fulltradesfilter)
+- [`OffsetFilter`](#offsetfilter)
+- [`PerformanceFilter`](#performancefilter)
+- [`PrecisionFilter`](#precisionfilter)
+- [`PriceFilter`](#pricefilter)
+- [`ShuffleFilter`](#shufflefilter)
+- [`SpreadFilter`](#spreadfilter)
+- [`RangeStabilityFilter`](#rangestabilityfilter)
+- [`VolatilityFilter`](#volatilityfilter)
 
 !!! Tip "Testing pairlists"
-    Pairlist configurations can be quite tricky to get right. Best use the [`test-pairlist`](utils.md#test-pairlist) utility sub-command to test your configuration quickly.
+Pairlist configurations can be quite tricky to get right. Best use the [`test-pairlist`](utils.md#test-pairlist) utility sub-command to test your configuration quickly.
 
 #### Static Pair List
 
@@ -72,7 +72,7 @@ Filtering instances (not the first position in the list) will not apply any cach
 
 `VolumePairList` is per default based on the ticker data from exchange, as reported by the ccxt library:
 
-* The `quoteVolume` is the amount of quote (stake) currency traded (bought or sold) in last 24 hours.
+- The `quoteVolume` is the amount of quote (stake) currency traded (bought or sold) in last 24 hours.
 
 ```json
 "pairlists": [
@@ -92,7 +92,7 @@ In addition to that, you can also define a maximum volume with `max_value` - whi
 
 ##### VolumePairList Advanced mode
 
-`VolumePairList` can also operate in an advanced mode to build volume over a given timerange of specified candle size. It utilizes exchange historical candle data, builds a typical price (calculated by (open+high+low)/3) and multiplies the typical price with every candle's volume. The sum is the `quoteVolume` over the given range. This allows different scenarios, for a  more smoothened volume, when using longer ranges with larger candle sizes, or the opposite when using a short range with small candles.
+`VolumePairList` can also operate in an advanced mode to build volume over a given timerange of specified candle size. It utilizes exchange historical candle data, builds a typical price (calculated by (open+high+low)/3) and multiplies the typical price with every candle's volume. The sum is the `quoteVolume` over the given range. This allows different scenarios, for a more smoothened volume, when using longer ranges with larger candle sizes, or the opposite when using a short range with small candles.
 
 For convenience `lookback_days` can be specified, which will imply that 1d candles will be used for the lookback. In the example below the pairlist would be created based on the last 7 days:
 
@@ -110,15 +110,15 @@ For convenience `lookback_days` can be specified, which will imply that 1d candl
 ```
 
 !!! Warning "Range look back and refresh period"
-    When used in conjunction with `lookback_days` and `lookback_timeframe` the `refresh_period` can not be smaller than the candle size in seconds. As this will result in unnecessary requests to the exchanges API.
+When used in conjunction with `lookback_days` and `lookback_timeframe` the `refresh_period` can not be smaller than the candle size in seconds. As this will result in unnecessary requests to the exchanges API.
 
 !!! Warning "Performance implications when using lookback range"
-    If used in first position in combination with lookback, the computation of the range based volume can be time and resource consuming, as it downloads candles for all tradable pairs. Hence it's highly advised to use the standard approach with `VolumeFilter` to narrow the pairlist down for further range volume calculation.
+If used in first position in combination with lookback, the computation of the range based volume can be time and resource consuming, as it downloads candles for all tradable pairs. Hence it's highly advised to use the standard approach with `VolumeFilter` to narrow the pairlist down for further range volume calculation.
 
 ??? Tip "Unsupported exchanges"
-    On some exchanges (like Gemini), regular VolumePairList does not work as the api does not natively provide 24h volume. This can be worked around by using candle data to build the volume.
-    To roughly simulate 24h volume, you can use the following configuration.
-    Please note that These pairlists will only refresh once per day.
+On some exchanges (like Gemini), regular VolumePairList does not work as the api does not natively provide 24h volume. This can be worked around by using candle data to build the volume.
+To roughly simulate 24h volume, you can use the following configuration.
+Please note that These pairlists will only refresh once per day.
 
     ```json
     "pairlists": [
@@ -150,7 +150,7 @@ More sophisticated approach can be used, by using `lookback_timeframe` for candl
 ```
 
 !!! Note
-    `VolumePairList` does not support backtesting mode.
+`VolumePairList` does not support backtesting mode.
 
 #### Percent Change Pair List
 
@@ -158,14 +158,14 @@ More sophisticated approach can be used, by using `lookback_timeframe` for candl
 
 **Configuration Options**
 
-* `number_assets`: Specifies the number of top pairs to select based on the 24-hour percentage change.
-* `min_value`: Sets a minimum percentage change threshold. Pairs with a percentage change below this value will be filtered out.
-* `max_value`: Sets a maximum percentage change threshold. Pairs with a percentage change above this value will be filtered out.
-* `sort_direction`: Specifies the order in which pairs are sorted based on their percentage change. Accepts two values: `asc` for ascending order and `desc` for descending order.
-* `refresh_period`: Defines the interval (in seconds) at which the pairlist will be refreshed. The default is 1800 seconds (30 minutes).
-* `lookback_days`: Number of days to look back. When `lookback_days` is selected, the `lookback_timeframe` is defaulted to 1 day.
-* `lookback_timeframe`: Timeframe to use for the lookback period.
-* `lookback_period`: Number of periods to look back at. 
+- `number_assets`: Specifies the number of top pairs to select based on the 24-hour percentage change.
+- `min_value`: Sets a minimum percentage change threshold. Pairs with a percentage change below this value will be filtered out.
+- `max_value`: Sets a maximum percentage change threshold. Pairs with a percentage change above this value will be filtered out.
+- `sort_direction`: Specifies the order in which pairs are sorted based on their percentage change. Accepts two values: `asc` for ascending order and `desc` for descending order.
+- `refresh_period`: Defines the interval (in seconds) at which the pairlist will be refreshed. The default is 1800 seconds (30 minutes).
+- `lookback_days`: Number of days to look back. When `lookback_days` is selected, the `lookback_timeframe` is defaulted to 1 day.
+- `lookback_timeframe`: Timeframe to use for the lookback period.
+- `lookback_period`: Number of periods to look back at.
 
 When PercentChangePairList is used after other Pairlist Handlers, it will operate on the outputs of those handlers. If it is the leading Pairlist Handler, it will select pairs from all available markets with the specified stake currency.
 
@@ -173,8 +173,8 @@ When PercentChangePairList is used after other Pairlist Handlers, it will operat
 The percentage change is calculated as the change in price over the last 24 hours.
 
 ??? Note "Unsupported exchanges"
-    On some exchanges (like HTX), regular PercentChangePairList does not work as the api does not natively provide 24h percent change in price. This can be worked around by using candle data to calculate the percentage change. To roughly simulate 24h percent change, you can use the following configuration. Please note that these pairlists will only refresh once per day.
-    ```json
+On some exchanges (like HTX), regular PercentChangePairList does not work as the api does not natively provide 24h percent change in price. This can be worked around by using candle data to calculate the percentage change. To roughly simulate 24h percent change, you can use the following configuration. Please note that these pairlists will only refresh once per day.
+`json
     "pairlists": [
         {
             "method": "PercentChangePairList",
@@ -184,7 +184,7 @@ The percentage change is calculated as the change in price over the last 24 hour
             "lookback_days": 1
         }
     ],
-    ```
+    `
 
 **Example Configuration to Read from Ticker**
 
@@ -224,16 +224,16 @@ This example builds the percent change pairs based on a rolling period of 3 days
 
 The percent change in price is calculated using the following formula, which expresses the percentage difference between the current candle's close price and the previous candle's close price, as defined by the specified timeframe and lookback period:
 
-$$ Percent Change = (\frac{Current Close - Previous Close}{Previous Close}) * 100 $$
+$$ Percent Change = (\frac{Current Close - Previous Close}{Previous Close}) \* 100 $$
 
 !!! Warning "Range look back and refresh period"
-    When used in conjunction with `lookback_days` and `lookback_timeframe` the `refresh_period` can not be smaller than the candle size in seconds. As this will result in unnecessary requests to the exchanges API.
+When used in conjunction with `lookback_days` and `lookback_timeframe` the `refresh_period` can not be smaller than the candle size in seconds. As this will result in unnecessary requests to the exchanges API.
 
 !!! Warning "Performance implications when using lookback range"
-    If used in first position in combination with lookback, the computation of the range-based percent change can be time and resource consuming, as it downloads candles for all tradable pairs. Hence it's highly advised to use the standard approach with `PercentChangePairList` to narrow the pairlist down for further percent-change calculation.
+If used in first position in combination with lookback, the computation of the range-based percent change can be time and resource consuming, as it downloads candles for all tradable pairs. Hence it's highly advised to use the standard approach with `PercentChangePairList` to narrow the pairlist down for further percent-change calculation.
 
 !!! Note "Backtesting"
-    `PercentChangePairList` does not support backtesting mode.
+`PercentChangePairList` does not support backtesting mode.
 
 #### ProducerPairList
 
@@ -255,11 +255,10 @@ You can limit the length of the pairlist with the optional parameter `number_ass
 ],
 ```
 
-
 !!! Tip "Combining pairlists"
-    This pairlist can be combined with all other pairlists and filters for further pairlist reduction, and can also act as an "additional" pairlist, on top of already defined pairs.
-    `ProducerPairList` can also be used multiple times in sequence, combining the pairs from multiple producers.
-    Obviously in complex such configurations, the Producer may not provide data for all pairs, so the strategy must be fit for this.
+This pairlist can be combined with all other pairlists and filters for further pairlist reduction, and can also act as an "additional" pairlist, on top of already defined pairs.
+`ProducerPairList` can also be used multiple times in sequence, combining the pairs from multiple producers.
+Obviously in complex such configurations, the Producer may not provide data for all pairs, so the strategy must be fit for this.
 
 #### RemotePairList
 
@@ -279,7 +278,7 @@ The RemotePairList is defined in the pairlists section of the configuration sett
         "keep_pairlist_on_failure": true,
         "read_timeout": 60,
         "bearer_token": "my-bearer-token",
-        "save_to_file": "user_data/filename.json" 
+        "save_to_file": "user_data/filename.json"
     }
 ]
 ```
@@ -297,7 +296,7 @@ The `pairlist_url` option specifies the URL of the remote server where the pairl
 The `save_to_file` option, when provided with a valid filename, saves the processed pairlist to that file in JSON format. This option is optional, and by default, the pairlist is not saved to a file.
 
 ??? Example "Multi bot with shared pairlist example"
-    
+
     `save_to_file` can be used to save the pairlist to a file with Bot1:
 
     ```json
@@ -310,7 +309,7 @@ The `save_to_file` option, when provided with a valid filename, saves the proces
             "refresh_period": 1800,
             "keep_pairlist_on_failure": true,
             "read_timeout": 60,
-            "save_to_file": "user_data/filename.json" 
+            "save_to_file": "user_data/filename.json"
         }
     ]
     ```
@@ -328,14 +327,14 @@ The `save_to_file` option, when provided with a valid filename, saves the proces
             "keep_pairlist_on_failure": true,
         }
     ]
-    ```    
+    ```
 
 The user is responsible for providing a server or local file that returns a JSON object with the following structure:
 
 ```json
 {
-    "pairs": ["XRP/USDT", "ETH/USDT", "LTC/USDT"],
-    "refresh_period": 1800
+  "pairs": ["XRP/USDT", "ETH/USDT", "LTC/USDT"],
+  "refresh_period": 1800
 }
 ```
 
@@ -348,7 +347,7 @@ The optional `read_timeout` specifies the maximum amount of time (in seconds) to
 The optional `bearer_token` will be included in the requests Authorization Header.
 
 !!! Note
-    In case of a server error the last received pairlist will be kept if `keep_pairlist_on_failure` is set to true, when set to false a empty pairlist is returned.
+In case of a server error the last received pairlist will be kept if `keep_pairlist_on_failure` is set to true, when set to false a empty pairlist is returned.
 
 #### MarketCapPairList
 
@@ -375,7 +374,7 @@ The `categories` setting specifies the [coingecko categories](https://www.coinge
 If an incorrect category string is chosen, the plugin will print the available categories from CoinGecko and fail. The category should be the ID of the category, for example, for `https://www.coingecko.com/en/categories/layer-1`, the category ID would be `layer-1`. You can pass multiple categories such as `["layer-1", "meme-token"]` to select from several categories.
 
 !!! Warning "Many categories"
-    Each added category corresponds to one API call to CoinGecko. The more categories you add, the longer the pairlist generation will take, potentially causing rate limit issues.
+Each added category corresponds to one API call to CoinGecko. The more categories you add, the longer the pairlist generation will take, potentially causing rate limit issues.
 
 #### AgeFilter
 
@@ -396,7 +395,7 @@ When the trade slots are full, there is no need to calculate indicators of the r
 When multiple pairlist filters are being used, it's recommended to put this filter at second position directly below the primary pairlist, so when the trade slots are full, the bot doesn't have to download data for the rest of the filters.
 
 !!! Warning "Backtesting"
-    `FullTradesFilter` does not support backtesting mode.
+`FullTradesFilter` does not support backtesting mode.
 
 #### OffsetFilter
 
@@ -418,12 +417,12 @@ Example to remove the first 10 pairs from the pairlist, and takes the next 20 (t
 ```
 
 !!! Warning
-    When `OffsetFilter` is used to split a larger pairlist among multiple bots in combination with `VolumeFilter` 
-    it can not be guaranteed that pairs won't overlap due to slightly different refresh intervals for the
-    `VolumeFilter`.
+When `OffsetFilter` is used to split a larger pairlist among multiple bots in combination with `VolumeFilter`
+it can not be guaranteed that pairs won't overlap due to slightly different refresh intervals for the
+`VolumeFilter`.
 
 !!! Note
-    An offset larger than the total length of the incoming pairlist will result in an empty pairlist.
+An offset larger than the total length of the incoming pairlist will result in an empty pairlist.
 
 #### PerformanceFilter
 
@@ -456,7 +455,7 @@ Using this parameter without `minutes` is highly discouraged, as it can lead to 
 As this Filter uses past performance of the bot, it'll have some startup-period - and should only be used after the bot has a few 100 trades in the database.
 
 !!! Warning "Backtesting"
-    `PerformanceFilter` does not support backtesting mode.
+`PerformanceFilter` does not support backtesting mode.
 
 #### PrecisionFilter
 
@@ -465,19 +464,19 @@ Filters low-value coins which would not allow setting stoplosses.
 Namely, pairs are blacklisted if a variance of one percent or more in the stop price would be caused by precision rounding on the exchange, i.e. `rounded(stop_price) <= rounded(stop_price * 0.99)`. The idea is to avoid coins with a value VERY close to their lower trading boundary, not allowing setting of proper stoploss.
 
 !!! Tip "PrecisionFilter is pointless for futures trading"
-    The above does not apply to shorts. And for longs, in theory the trade will be liquidated first.
+The above does not apply to shorts. And for longs, in theory the trade will be liquidated first.
 
 !!! Warning "Backtesting"
-    `PrecisionFilter` does not support backtesting mode using multiple strategies.
+`PrecisionFilter` does not support backtesting mode using multiple strategies.
 
 #### PriceFilter
 
 The `PriceFilter` allows filtering of pairs by price. Currently the following price filters are supported:
 
-* `min_price`
-* `max_price`
-* `max_value`
-* `low_price_ratio`
+- `min_price`
+- `max_price`
+- `max_value`
+- `low_price_ratio`
 
 The `min_price` setting removes pairs where the price is below the specified price. This is useful if you wish to avoid trading very low-priced pairs.
 This option is disabled by default, and will only apply if set to > 0.
@@ -500,26 +499,25 @@ Calculation example:
 Min price precision for SHITCOIN/BTC is 8 decimals. If its price is 0.00000011 - one price step above would be 0.00000012, which is ~9% higher than the previous price value. You may filter out this pair by using PriceFilter with `low_price_ratio` set to 0.09 (9%) or with `min_price` set to 0.00000011, correspondingly.
 
 !!! Warning "Low priced pairs"
-    Low priced pairs with high "1 pip movements" are dangerous since they are often illiquid and it may also be impossible to place the desired stoploss, which can often result in high losses since price needs to be rounded to the next tradable price - so instead of having a stoploss of -5%, you could end up with a stoploss of -9% simply due to price rounding.
+Low priced pairs with high "1 pip movements" are dangerous since they are often illiquid and it may also be impossible to place the desired stoploss, which can often result in high losses since price needs to be rounded to the next tradable price - so instead of having a stoploss of -5%, you could end up with a stoploss of -9% simply due to price rounding.
 
 #### ShuffleFilter
 
 Shuffles (randomizes) pairs in the pairlist. It can be used for preventing the bot from trading some of the pairs more frequently then others when you want all pairs be treated with the same priority.
 
 By default, ShuffleFilter will shuffle pairs once per candle.
-To shuffle on every iteration, set `"shuffle_frequency"` to `"iteration"` instead of  the default of `"candle"`.
+To shuffle on every iteration, set `"shuffle_frequency"` to `"iteration"` instead of the default of `"candle"`.
 
-``` json
-    {
-        "method": "ShuffleFilter", 
-        "shuffle_frequency": "candle",
-        "seed": 42
-    }
-
+```json
+{
+  "method": "ShuffleFilter",
+  "shuffle_frequency": "candle",
+  "seed": 42
+}
 ```
 
 !!! Tip
-    You may set the `seed` value for this Pairlist to obtain reproducible results, which can be useful for repeated backtesting sessions. If `seed` is not set, the pairs are shuffled in the non-repeatable random order. ShuffleFilter will automatically detect runmodes and apply the `seed` only for backtesting modes - if a `seed` value is set.
+You may set the `seed` value for this Pairlist to obtain reproducible results, which can be useful for repeated backtesting sessions. If `seed` is not set, the pairs are shuffled in the non-repeatable random order. ShuffleFilter will automatically detect runmodes and apply the `seed` only for backtesting modes - if a `seed` value is set.
 
 #### SpreadFilter
 
@@ -551,12 +549,12 @@ If the trading range over the last 10 days is <1% or >99%, remove the pair from 
 Adding `"sort_direction": "asc"` or `"sort_direction": "desc"` enables sorting for this pairlist.
 
 !!! Tip
-    This Filter can be used to automatically remove stable coin pairs, which have a very low trading range, and are therefore extremely difficult to trade with profit.
-    Additionally, it can also be used to automatically remove pairs with extreme high/low variance over a given amount of time.
+This Filter can be used to automatically remove stable coin pairs, which have a very low trading range, and are therefore extremely difficult to trade with profit.
+Additionally, it can also be used to automatically remove pairs with extreme high/low variance over a given amount of time.
 
 #### VolatilityFilter
 
-Volatility is the degree of historical variation of a pairs over time, it is measured by the standard deviation of logarithmic daily returns. Returns are assumed to be normally distributed, although actual distribution might be different. In a normal distribution, 68% of observations fall within one standard deviation and 95% of observations fall within two standard deviations. Assuming a volatility of 0.05 means that the expected returns for 20 out of 30 days is expected to be less than 5% (one standard deviation). Volatility is a positive ratio of the expected deviation of return and can be greater than 1.00. Please refer to the wikipedia definition of [`volatility`](https://en.wikipedia.org/wiki/Volatility_(finance)).
+Volatility is the degree of historical variation of a pairs over time, it is measured by the standard deviation of logarithmic daily returns. Returns are assumed to be normally distributed, although actual distribution might be different. In a normal distribution, 68% of observations fall within one standard deviation and 95% of observations fall within two standard deviations. Assuming a volatility of 0.05 means that the expected returns for 20 out of 30 days is expected to be less than 5% (one standard deviation). Volatility is a positive ratio of the expected deviation of return and can be greater than 1.00. Please refer to the wikipedia definition of [`volatility`](<https://en.wikipedia.org/wiki/Volatility_(finance)>).
 
 This filter removes pairs if the average volatility over a `lookback_days` days is below `min_volatility` or above `max_volatility`. Since this is a filter that requires additional data, the results are cached for `refresh_period`.
 

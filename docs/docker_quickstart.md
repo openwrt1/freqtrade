@@ -6,30 +6,28 @@ This page explains how to run the bot with Docker. It is not meant to work out o
 
 Start by downloading and installing Docker / Docker Desktop for your platform:
 
-* [Mac](https://docs.docker.com/docker-for-mac/install/)
-* [Windows](https://docs.docker.com/docker-for-windows/install/)
-* [Linux](https://docs.docker.com/install/)
+- [Mac](https://docs.docker.com/docker-for-mac/install/)
+- [Windows](https://docs.docker.com/docker-for-windows/install/)
+- [Linux](https://docs.docker.com/install/)
 
 !!! Info "Docker compose install"
-    Freqtrade documentation assumes the use of Docker desktop (or the docker compose plugin).  
-    While the docker-compose standalone installation still works, it will require changing all `docker compose` commands from `docker compose` to `docker-compose` to work (e.g. `docker compose up -d` will become `docker-compose up -d`).
+Freqtrade documentation assumes the use of Docker desktop (or the docker compose plugin).  
+ While the docker-compose standalone installation still works, it will require changing all `docker compose` commands from `docker compose` to `docker-compose` to work (e.g. `docker compose up -d` will become `docker-compose up -d`).
 
 ??? Warning "Docker on windows"
-    If you just installed docker on a windows system, make sure to reboot your system, otherwise you might encounter unexplainable Problems related to network connectivity to docker containers.
+If you just installed docker on a windows system, make sure to reboot your system, otherwise you might encounter unexplainable Problems related to network connectivity to docker containers.
 
 ## Freqtrade with docker
 
 Freqtrade provides an official Docker image on [Dockerhub](https://hub.docker.com/r/freqtradeorg/freqtrade/), as well as a [docker compose file](https://github.com/freqtrade/freqtrade/blob/stable/docker-compose.yml) ready for usage.
 
-!!! Note
-    - The following section assumes that `docker` is installed and available to the logged in user.
-    - All below commands use relative directories and will have to be executed from the directory containing the `docker-compose.yml` file.
+!!! Note - The following section assumes that `docker` is installed and available to the logged in user. - All below commands use relative directories and will have to be executed from the directory containing the `docker-compose.yml` file.
 
 ### Docker quick start
 
 Create a new directory and place the [docker-compose file](https://raw.githubusercontent.com/freqtrade/freqtrade/stable/docker-compose.yml) in this directory.
 
-``` bash
+```bash
 mkdir ft_userdata
 cd ft_userdata/
 # Download the docker-compose file from the repository
@@ -49,7 +47,7 @@ The above snippet creates a new directory called `ft_userdata`, downloads the la
 The last 2 steps in the snippet create the directory with `user_data`, as well as (interactively) the default configuration based on your selections.
 
 !!! Question "How to edit the bot configuration?"
-    You can edit the configuration at any time, which is available as `user_data/config.json` (within the directory `ft_userdata`) when using the above configuration.
+You can edit the configuration at any time, which is available as `user_data/config.json` (within the directory `ft_userdata`) when using the above configuration.
 
     You can also change the both Strategy and commands by editing the command section of your `docker-compose.yml` file.
 
@@ -62,18 +60,18 @@ The last 2 steps in the snippet create the directory with `user_data`, as well a
 The `SampleStrategy` is run by default.
 
 !!! Danger "`SampleStrategy` is just a demo!"
-    The `SampleStrategy` is there for your reference and give you ideas for your own strategy.
-    Please always backtest your strategy and use dry-run for some time before risking real money!
-    You will find more information about Strategy development in the [Strategy documentation](strategy-customization.md).
+The `SampleStrategy` is there for your reference and give you ideas for your own strategy.
+Please always backtest your strategy and use dry-run for some time before risking real money!
+You will find more information about Strategy development in the [Strategy documentation](strategy-customization.md).
 
 Once this is done, you're ready to launch the bot in trading mode (Dry-run or Live-trading, depending on your answer to the corresponding question you made above).
 
-``` bash
+```bash
 docker compose up -d
 ```
 
 !!! Warning "Default configuration"
-    While the configuration generated will be mostly functional, you will still need to verify that all options correspond to what you want (like Pricing, pairlist, ...) before starting the bot.
+While the configuration generated will be mostly functional, you will still need to verify that all options correspond to what you want (like Pricing, pairlist, ...) before starting the bot.
 
 #### Accessing the UI
 
@@ -82,10 +80,10 @@ If you've selected to enable FreqUI in the `new-config` step, you will have freq
 You can now access the UI by typing localhost:8080 in your browser.
 
 ??? Note "UI Access on a remote server"
-    If you're running on a VPS, you should consider using either a ssh tunnel, or setup a VPN (openVPN, wireguard) to connect to your bot.
-    This will ensure that freqUI is not directly exposed to the internet, which is not recommended for security reasons (freqUI does not support https out of the box).
-    Setup of these tools is not part of this tutorial, however many good tutorials can be found on the internet.
-    Please also read the [API configuration with docker](rest-api.md#configuration-with-docker) section to learn more about this configuration.
+If you're running on a VPS, you should consider using either a ssh tunnel, or setup a VPN (openVPN, wireguard) to connect to your bot.
+This will ensure that freqUI is not directly exposed to the internet, which is not recommended for security reasons (freqUI does not support https out of the box).
+Setup of these tools is not part of this tutorial, however many good tutorials can be found on the internet.
+Please also read the [API configuration with docker](rest-api.md#configuration-with-docker) section to learn more about this configuration.
 
 #### Monitoring the bot
 
@@ -105,7 +103,7 @@ The database will be located at: `user_data/tradesv3.sqlite`
 
 Updating freqtrade when using `docker` is as simple as running the following 2 commands:
 
-``` bash
+```bash
 # Download the latest image
 docker compose pull
 # Restart the image
@@ -115,7 +113,7 @@ docker compose up -d
 This will first pull the latest image, and will then restart the container with the just pulled version.
 
 !!! Warning "Check the Changelog"
-    You should always check the changelog for breaking changes / manual interventions required and make sure the bot starts correctly after the update.
+You should always check the changelog for breaking changes / manual interventions required and make sure the bot starts correctly after the update.
 
 ### Editing the docker-compose file
 
@@ -124,24 +122,24 @@ Advanced users may edit the docker-compose file further to include all possible 
 All freqtrade arguments will be available by running `docker compose run --rm freqtrade <command> <optional arguments>`.
 
 !!! Warning "`docker compose` for trade commands"
-    Trade commands (`freqtrade trade <...>`) should not be ran via `docker compose run` - but should use `docker compose up -d` instead.
-    This makes sure that the container is properly started (including port forwardings) and will make sure that the container will restart after a system reboot.
-    If you intend to use freqUI, please also ensure to adjust the [configuration accordingly](rest-api.md#configuration-with-docker), otherwise the UI will not be available.
+Trade commands (`freqtrade trade <...>`) should not be ran via `docker compose run` - but should use `docker compose up -d` instead.
+This makes sure that the container is properly started (including port forwardings) and will make sure that the container will restart after a system reboot.
+If you intend to use freqUI, please also ensure to adjust the [configuration accordingly](rest-api.md#configuration-with-docker), otherwise the UI will not be available.
 
 !!! Note "`docker compose run --rm`"
-    Including `--rm` will remove the container after completion, and is highly recommended for all modes except trading mode (running with `freqtrade trade` command).
+Including `--rm` will remove the container after completion, and is highly recommended for all modes except trading mode (running with `freqtrade trade` command).
 
 ??? Note "Using docker without docker compose"
-    "`docker compose run --rm`" will require a compose file to be provided.
-    Some freqtrade commands that don't require authentication such as `list-pairs` can be run with "`docker run --rm`" instead.  
-    For example `docker run --rm freqtradeorg/freqtrade:stable list-pairs --exchange binance --quote BTC --print-json`.  
-    This can be useful for fetching exchange information to add to your `config.json` without affecting your running containers.
+"`docker compose run --rm`" will require a compose file to be provided.
+Some freqtrade commands that don't require authentication such as `list-pairs` can be run with "`docker run --rm`" instead.  
+ For example `docker run --rm freqtradeorg/freqtrade:stable list-pairs --exchange binance --quote BTC --print-json`.  
+ This can be useful for fetching exchange information to add to your `config.json` without affecting your running containers.
 
 #### Example: Download data with docker
 
 Download backtesting data for 5 days for the pair ETH/BTC and 1h timeframe from Binance. The data will be stored in the directory `user_data/data/` on the host.
 
-``` bash
+```bash
 docker compose run --rm freqtrade download-data --pairs ETH/BTC --exchange binance --days 5 -t 1h
 ```
 
@@ -151,7 +149,7 @@ Head over to the [Data Downloading Documentation](data-download.md) for more det
 
 Run backtesting in docker-containers for SampleStrategy and specified timerange of historical data, on 5m timeframe:
 
-``` bash
+```bash
 docker compose run --rm freqtrade backtesting --config user_data/config.json --strategy SampleStrategy --timerange 20190801-20191001 -i 5m
 ```
 
@@ -164,11 +162,11 @@ For this, please create a Dockerfile containing installation steps for the addit
 
 You'll then also need to modify the `docker-compose.yml` file and uncomment the build step, as well as rename the image to avoid naming collisions.
 
-``` yaml
-    image: freqtrade_custom
-    build:
-      context: .
-      dockerfile: "./Dockerfile.<yourextension>"
+```yaml
+image: freqtrade_custom
+build:
+  context: .
+  dockerfile: "./Dockerfile.<yourextension>"
 ```
 
 You can then run `docker compose build --pull` to build the docker image, and run it using the commands described above.
@@ -178,7 +176,7 @@ You can then run `docker compose build --pull` to build the docker image, and ru
 Commands `freqtrade plot-profit` and `freqtrade plot-dataframe` ([Documentation](plotting.md)) are available by changing the image to `*_plot` in your `docker-compose.yml` file.
 You can then use these commands as follows:
 
-``` bash
+```bash
 docker compose run --rm freqtrade plot-dataframe --strategy AwesomeStrategy -p BTC/ETH --timerange=20180801-20180805
 ```
 
@@ -189,7 +187,7 @@ The output will be stored in the `user_data/plot` directory, and can be opened w
 Freqtrade provides a docker-compose file which starts up a jupyter lab server.
 You can run this server using the following command:
 
-``` bash
+```bash
 docker compose -f docker/docker-compose-jupyter.yml up
 ```
 
@@ -198,7 +196,7 @@ Please use the link that's printed in the console after startup for simplified l
 
 Since part of this image is built on your machine, it is recommended to rebuild the image from time to time to keep freqtrade (and dependencies) up-to-date.
 
-``` bash
+```bash
 docker compose -f docker/docker-compose-jupyter.yml build --no-cache
 ```
 
@@ -206,21 +204,21 @@ docker compose -f docker/docker-compose-jupyter.yml build --no-cache
 
 ### Docker on Windows
 
-* Error: `"Timestamp for this request is outside of the recvWindow."`  
+- Error: `"Timestamp for this request is outside of the recvWindow."`  
   The market api requests require a synchronized clock but the time in the docker container shifts a bit over time into the past.
   To fix this issue temporarily you need to run `wsl --shutdown` and restart docker again (a popup on windows 10 will ask you to do so).
   A permanent solution is either to host the docker container on a linux host or restart the wsl from time to time with the scheduler.
 
-  ``` bash
+  ```bash
   taskkill /IM "Docker Desktop.exe" /F
   wsl --shutdown
   start "" "C:\Program Files\Docker\Docker\Docker Desktop.exe"
   ```
 
-* Cannot connect to the API (Windows)  
+- Cannot connect to the API (Windows)  
   If you're on windows and just installed Docker (desktop), make sure to reboot your System. Docker can have problems with network connectivity without a restart.
   You should obviously also make sure to have your [settings](#accessing-the-ui) accordingly.
 
 !!! Warning
-    Due to the above, we do not recommend the usage of docker on windows for production setups, but only for experimentation, datadownload and backtesting.
-    Best use a linux-VPS for running freqtrade reliably.
+Due to the above, we do not recommend the usage of docker on windows for production setups, but only for experimentation, datadownload and backtesting.
+Best use a linux-VPS for running freqtrade reliably.

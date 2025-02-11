@@ -3,11 +3,11 @@
 This guide walks you through utilizing public trade data for advanced orderflow analysis in Freqtrade.
 
 !!! Warning "Experimental Feature"
-    The orderflow feature is currently in beta and may be subject to changes in future releases. Please report any issues or feedback on the [Freqtrade GitHub repository](https://github.com/freqtrade/freqtrade/issues).
-    It's also currently not been tested with freqAI - and combining these two features is considered out of scope at this point.
+The orderflow feature is currently in beta and may be subject to changes in future releases. Please report any issues or feedback on the [Freqtrade GitHub repository](https://github.com/freqtrade/freqtrade/issues).
+It's also currently not been tested with freqAI - and combining these two features is considered out of scope at this point.
 
 !!! Warning "Performance"
-    Orderflow requires raw trades data. This data is rather large, and can cause a slow initial startup, when freqtrade needs to download the trades data for the last X candles. Additionally, enabling this feature will cause increased memory usage. Please ensure to have sufficient resources available.
+Orderflow requires raw trades data. This data is rather large, and can cause a slow initial startup, when freqtrade needs to download the trades data for the last X candles. Additionally, enabling this feature will cause increased memory usage. Please ensure to have sufficient resources available.
 
 ## Getting Started
 
@@ -35,9 +35,9 @@ Define your desired settings for orderflow processing within the orderflow secti
 
 ```json
 "orderflow": {
-    "cache_size": 1000, 
-    "max_candles": 1500, 
-    "scale": 0.5, 
+    "cache_size": 1000,
+    "max_candles": 1500,
+    "scale": 0.5,
     "stacked_imbalance_range": 3, //  needs at least this amount of imbalance next to each other
     "imbalance_volume": 1, //  filters out below
     "imbalance_ratio": 3 //  filters out ratio lower than
@@ -53,18 +53,18 @@ freqtrade download-data -p BTC/USDT:USDT --timerange 20230101- --trading-mode fu
 ```
 
 !!! Warning "Data availability"
-    Not all exchanges provide public trade data. For supported exchanges, freqtrade will warn you if public trade data is not available if you start downloading data with the `--dl-trades` flag.
+Not all exchanges provide public trade data. For supported exchanges, freqtrade will warn you if public trade data is not available if you start downloading data with the `--dl-trades` flag.
 
 ## Accessing Orderflow Data
 
 Once activated, several new columns become available in your dataframe:
 
-``` python
+```python
 
 dataframe["trades"] # Contains information about each individual trade.
 dataframe["orderflow"] # Represents a footprint chart dict (see below)
 dataframe["imbalances"] # Contains information about imbalances in the order flow.
-dataframe["bid"] # Total bid volume 
+dataframe["bid"] # Total bid volume
 dataframe["ask"] # Total ask volume
 dataframe["delta"] # Difference between ask and bid volume.
 dataframe["min_delta"] # Minimum delta within the candle
@@ -76,7 +76,7 @@ dataframe["stacked_imbalances_ask"] # List of price levels of stacked ask imbala
 
 You can access these columns in your strategy code for further analysis. Here's an example:
 
-``` python
+```python
 def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
     # Calculating cumulative delta
     dataframe["cum_delta"] = cumulative_delta(dataframe["delta"])
@@ -96,7 +96,7 @@ This column provides a detailed breakdown of buy and sell orders at different pr
 
 The `orderflow` column contains a dict with the following structure:
 
-``` output
+```output
 {
     "price": {
         "bid_amount": 0.0,
@@ -135,7 +135,7 @@ Each individual entry contains a dict with the following keys:
 - `amount`: Volume of the trade.
 - `side`: Buy or sell.
 - `id`: Unique identifier for the trade.
-- `cost`: Total cost of the trade (price * amount).
+- `cost`: Total cost of the trade (price \* amount).
 
 ### Imbalances (`dataframe["imbalances"]`)
 
@@ -143,7 +143,7 @@ This column provides a dict with information about imbalances in the order flow.
 
 Each row looks as follows - with price as index, and the corresponding bid and ask imbalance values as columns
 
-``` output
+```output
 {
     "price": {
         "bid_imbalance": False,

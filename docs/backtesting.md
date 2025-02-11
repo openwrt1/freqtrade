@@ -23,16 +23,15 @@ The result of backtesting will confirm if your bot has better odds of making a p
 All profit calculations include fees, and freqtrade will use the exchange's default fees for the calculation.
 
 !!! Warning "Using dynamic pairlists for backtesting"
-    Using dynamic pairlists is possible (not all of the handlers are allowed to be used in backtest mode), however it relies on the current market conditions - which will not reflect the historic status of the pairlist.
-    Also, when using pairlists other than StaticPairlist, reproducibility of backtesting-results cannot be guaranteed.
-    Please read the [pairlists documentation](plugins.md#pairlists) for more information.
+Using dynamic pairlists is possible (not all of the handlers are allowed to be used in backtest mode), however it relies on the current market conditions - which will not reflect the historic status of the pairlist.
+Also, when using pairlists other than StaticPairlist, reproducibility of backtesting-results cannot be guaranteed.
+Please read the [pairlists documentation](plugins.md#pairlists) for more information.
 
     To achieve reproducible results, best generate a pairlist via the [`test-pairlist`](utils.md#test-pairlist) command and use that as static pairlist.
 
 !!! Note
-    By default, Freqtrade will export backtesting results to `user_data/backtest_results`.
-    The exported trades can be used for [further analysis](#further-backtest-result-analysis) or can be used by the [plotting sub-command](plotting.md#plot-price-and-indicators) (`freqtrade plot-dataframe`) in the scripts directory.
-
+By default, Freqtrade will export backtesting results to `user_data/backtest_results`.
+The exported trades can be used for [further analysis](#further-backtest-result-analysis) or can be used by the [plotting sub-command](plotting.md#plot-price-and-indicators) (`freqtrade plot-dataframe`) in the scripts directory.
 
 ### Starting balance
 
@@ -74,11 +73,11 @@ freqtrade backtesting --strategy AwesomeStrategy --dry-run-wallet 1000
 
 Using a different on-disk historical candle (OHLCV) data source
 
-Assume you downloaded the history data from the Binance exchange and kept it in the `user_data/data/binance-20180101` directory. 
+Assume you downloaded the history data from the Binance exchange and kept it in the `user_data/data/binance-20180101` directory.
 You can then use this data for backtesting as follows:
 
 ```bash
-freqtrade backtesting --strategy AwesomeStrategy --datadir user_data/data/binance-20180101 
+freqtrade backtesting --strategy AwesomeStrategy --datadir user_data/data/binance-20180101
 ```
 
 ---
@@ -96,7 +95,7 @@ Where `SampleStrategy1` and `AwesomeStrategy` refer to class names of strategies
 Prevent exporting trades to file
 
 ```bash
-freqtrade backtesting --strategy backtesting --export none --config config.json 
+freqtrade backtesting --strategy backtesting --export none --config config.json
 ```
 
 Only use this if you're sure you'll not want to plot or analyze your results further.
@@ -126,7 +125,7 @@ freqtrade backtesting --fee 0.001
 ```
 
 !!! Note
-    Only supply this option (or the corresponding configuration parameter) if you want to experiment with different fee values. By default, Backtesting fetches the default fee from the exchange pair/market info.
+Only supply this option (or the corresponding configuration parameter) if you want to experiment with different fee values. By default, Backtesting fetches the default fee from the exchange pair/market info.
 
 ---
 
@@ -384,7 +383,7 @@ It contains some useful key metrics about performance of your strategy on backte
 - `Replaced Entry Orders`: Number of entry orders that have been replaced by user request via `adjust_entry_price`.
 - `Min balance` / `Max balance`: Lowest and Highest Wallet balance during the backtest period.
 - `Max % of account underwater`: Maximum percentage your account has decreased from the top since the simulation started.
-Calculated as the maximum of `(Max Balance - Current Balance) / (Max Balance)`.
+  Calculated as the maximum of `(Max Balance - Current Balance) / (Max Balance)`.
 - `Absolute Drawdown (Account)`: Maximum Account Drawdown experienced. Calculated as `(Absolute Drawdown) / (DrawdownHigh + startingBalance)`.
 - `Drawdown`: Maximum, absolute drawdown experienced. Difference between Drawdown High and Subsequent Low point.
 - `Drawdown high` / `Drawdown low`: Profit at the beginning and end of the largest drawdown period. A negative low value means initial capital lost.
@@ -400,11 +399,11 @@ You can get an overview over daily / weekly or monthly results by using the `--b
 
 To visualize daily and weekly breakdowns, you can use the following:
 
-``` bash
+```bash
 freqtrade backtesting --strategy MyAwesomeStrategy --breakdown day week
 ```
 
-``` output
+```output
 ======================== DAY BREAKDOWN =========================
 |        Day |   Tot Profit USDT |   Wins |   Draws |   Losses |
 |------------+-------------------+--------+---------+----------|
@@ -424,8 +423,8 @@ The output will show a table containing the realized absolute Profit (in stake c
 To save time, by default backtest will reuse a cached result from within the last day when the backtested strategy and config match that of a previous backtest. To force a new backtest despite existing result for an identical run specify `--cache none` parameter.
 
 !!! Warning
-    Caching is automatically disabled for open-ended timeranges (`--timerange 20210101-`), as freqtrade cannot ensure reliably that the underlying data didn't change. It can also use cached results where it shouldn't if the original backtest had missing data at the end, which was fixed by downloading more data.
-    In this instance, please use `--cache none` once to force a fresh backtest.
+Caching is automatically disabled for open-ended timeranges (`--timerange 20210101-`), as freqtrade cannot ensure reliably that the underlying data didn't change. It can also use cached results where it shouldn't if the original backtest had missing data at the end, which was fixed by downloading more data.
+In this instance, please use `--cache none` once to force a fresh backtest.
 
 ### Further backtest-result analysis
 
@@ -504,13 +503,13 @@ To mitigate this, freqtrade can use a lower (faster) timeframe to simulate intra
 
 To utilize this, you can append `--timeframe-detail 5m` to your regular backtesting command.
 
-``` bash
+```bash
 freqtrade backtesting --strategy AwesomeStrategy --timeframe 1h --timeframe-detail 5m
 ```
 
 This will load 1h data (the main timeframe) as well as 5m data (detail timeframe) for the selected timerange.
 The strategy will be analyzed with the 1h timeframe.
-Candles where activity may take place (there's an active signal, the pair is in a trade) are  evaluated at the 5m timeframe.
+Candles where activity may take place (there's an active signal, the pair is in a trade) are evaluated at the 5m timeframe.
 This will allow for a more accurate simulation of intra-candle movements - and can lead to different results, especially on higher timeframes.
 
 Entries will generally still happen at the main candle's open, however freed trade slots may be freed earlier (if the exit signal is triggered on the 5m candle), which can then be used for a new trade of a different pair.
@@ -523,10 +522,10 @@ Obviously this will require more memory (5m data is bigger than 1h data), and wi
 Also, data must be available / downloaded already.
 
 !!! Tip
-    You can use this function as the last part of strategy development, to ensure your strategy is not exploiting one of the [backtesting assumptions](#assumptions-made-by-backtesting). Strategies that perform similarly well with this mode have a good chance to perform well in dry/live modes too (although only forward-testing (dry-mode) can really confirm a strategy).
+You can use this function as the last part of strategy development, to ensure your strategy is not exploiting one of the [backtesting assumptions](#assumptions-made-by-backtesting). Strategies that perform similarly well with this mode have a good chance to perform well in dry/live modes too (although only forward-testing (dry-mode) can really confirm a strategy).
 
 ??? Sample "Extreme Difference Example"
-    Using `--timeframe-detail` on an extreme example (all below pairs have the 10:00 candle with an entry signal) may lead to the following backtesting Trade sequence with 1 max_open_trades:
+Using `--timeframe-detail` on an extreme example (all below pairs have the 10:00 candle with an entry signal) may lead to the following backtesting Trade sequence with 1 max_open_trades:
 
     | Pair | Entry Time | Exit Time | Duration |
     |------|------------|-----------| -------- |
@@ -545,7 +544,6 @@ Also, data must be available / downloaded already.
 
     The difference is significant, as without detail data, only the first `max_open_trades` signals per candle are evaluated, and the trade slots are only freed at the end of the candle, allowing for a new trade to be opened at the next candle.
 
-
 ## Backtesting multiple strategies
 
 To compare multiple strategies, a list of Strategies can be provided to backtesting.
@@ -555,7 +553,7 @@ strategies you'd like to compare, this will give a nice runtime boost.
 
 All listed Strategies need to be in the same directory, unless also `--recursive-strategy-search` is specified, where sub-directories within the strategy directory are also considered.
 
-``` bash
+```bash
 freqtrade backtesting --timerange 20180401-20180410 --timeframe 5m --strategy-list Strategy001 Strategy002 --export trades
 ```
 

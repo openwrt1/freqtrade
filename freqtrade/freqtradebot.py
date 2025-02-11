@@ -84,6 +84,8 @@ class FreqtradeBot(LoggingMixin):
         :param config: configuration dict, you can use Configuration.get_config()
         to get the config dict.
         """
+
+
         self.active_pair_whitelist: list[str] = []
 
         # Init bot state

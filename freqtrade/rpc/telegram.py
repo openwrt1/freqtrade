@@ -4,7 +4,6 @@
 This module manage Telegram communication
 """
 import asyncio
-import importlib.util
 import json
 import logging
 import re
@@ -280,23 +279,21 @@ class Telegram(RPCHandler):
 
         # 获取代理配置
         proxy_url = self._config["telegram"].get("httpsProxy")
-        request = None
+        connection_pool_size = self._config["telegram"].get("connection_pool_size", 10)  # 默认连接池大小为10  # noqa: E501
+        pool_timeout = self._config["telegram"].get("pool_timeout", 10)  # 默认超时时间为10秒
 
         if proxy_url:
             logger.info(f"Using proxy: {proxy_url}")
             if proxy_url.startswith("socks5://"):
-                # 检查是否安装了 SOCKS5 代理所需的包
-                if importlib.util.find_spec("telegram[socks]") is None:
-                    logger.warning(
-                        "SOCKS5 proxy requires 'python-telegram-bot[socks]' package. "
-                        "Please install it using 'pip install python-telegram-bot[socks]'"
-                    )
-                else:
-                    request = HTTPXRequest(proxy=proxy_url)
+                logger.warning(
+                    "SOCKS5 proxy requires 'python-telegram-bot[socks]' package. "
+                    "Please install it using 'pip install python-telegram-bot[socks]'"
+                )
+                request = HTTPXRequest(proxy=proxy_url, connection_pool_size=connection_pool_size, pool_timeout=pool_timeout)  # noqa: E501
             else:
-                request = HTTPXRequest(proxy=proxy_url)
+                request = HTTPXRequest(proxy=proxy_url, connection_pool_size=connection_pool_size, pool_timeout=pool_timeout)  # noqa: E501
         else:
-            request = HTTPXRequest()
+            request = HTTPXRequest(connection_pool_size=connection_pool_size, pool_timeout=pool_timeout)  # noqa: E501
 
         return (
             ApplicationBuilder()

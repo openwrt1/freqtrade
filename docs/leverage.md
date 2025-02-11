@@ -1,14 +1,14 @@
 # Trading with Leverage
 
 !!! Warning "Beta feature"
-    This feature is still in it's testing phase. Should you notice something you think is wrong please let us know via Discord or via Github Issue.
+This feature is still in it's testing phase. Should you notice something you think is wrong please let us know via Discord or via Github Issue.
 
 !!! Note "Multiple bots on one account"
-    You can't run 2 bots on the same account with leverage. For leveraged / margin trading, freqtrade assumes it's the only user of the account, and all liquidation levels are calculated based on this assumption.
+You can't run 2 bots on the same account with leverage. For leveraged / margin trading, freqtrade assumes it's the only user of the account, and all liquidation levels are calculated based on this assumption.
 
 !!! Danger "Trading with leverage is very risky"
-    Do not trade with a leverage > 1 using a strategy that hasn't shown positive results in a live run using the spot market. Check the stoploss of your strategy. With a leverage of 2, a stoploss of 0.5 (50%) would be too low, and these trades would be liquidated before reaching that stoploss.
-    We do not assume any responsibility for eventual losses that occur from using this software or this mode.
+Do not trade with a leverage > 1 using a strategy that hasn't shown positive results in a live run using the spot market. Check the stoploss of your strategy. With a leverage of 2, a stoploss of 0.5 (50%) would be too low, and these trades would be liquidated before reaching that stoploss.
+We do not assume any responsibility for eventual losses that occur from using this software or this mode.
 
     Please only use advanced trading modes when you know how freqtrade (and your strategy) works.
     Also, never risk more than what you can afford to lose.
@@ -25,7 +25,7 @@ Please read [strategy customization](strategy-customization.md#entry-signal-rule
 
 ## Understand `trading_mode`
 
-The possible values are: `spot` (default), `margin`(*Currently unavailable*) or `futures`.
+The possible values are: `spot` (default), `margin`(_Currently unavailable_) or `futures`.
 
 ### Spot
 
@@ -57,7 +57,7 @@ In addition to the gains/losses from the change in price of the futures contract
 To trade in futures markets, you'll have to set `trading_mode` to "futures".
 You will also have to pick a "margin mode" (explanation below) - with freqtrade currently only supporting isolated margin.
 
-``` json
+```json
 "trading_mode": "futures",
 "margin_mode": "isolated"
 ```
@@ -72,13 +72,13 @@ A futures pair will therefore have the naming of `base/quote:settle` (e.g. `ETH/
 On top of `trading_mode` - you will also have to configure your `margin_mode`.
 While freqtrade currently only supports one margin mode, this will change, and by configuring it now you're all set for future updates.
 
-The possible values are: `isolated`, or `cross`(*currently unavailable*).
+The possible values are: `isolated`, or `cross`(_currently unavailable_).
 
 #### Isolated margin mode
 
 Each market(trading pair), keeps collateral in a separate account
 
-``` json
+```json
 "margin_mode": "isolated"
 ```
 
@@ -86,7 +86,7 @@ Each market(trading pair), keeps collateral in a separate account
 
 One account is used to share collateral between markets (trading pairs). Margin is taken from total account balance to avoid liquidation when needed.
 
-``` json
+```json
 "margin_mode": "cross"
 ```
 
@@ -100,11 +100,11 @@ While you could configure one static leverage value - freqtrade offers you the f
 If not implemented, leverage defaults to 1x (no leverage).
 
 !!! Warning
-    Higher leverage also equals higher risk - be sure you fully understand the implications of using leverage!
+Higher leverage also equals higher risk - be sure you fully understand the implications of using leverage!
 
 ## Understand `liquidation_buffer`
 
-*Defaults to `0.05`*
+_Defaults to `0.05`_
 
 A ratio specifying how large of a safety net to place between the liquidation price and the stoploss to prevent a position from reaching the liquidation price.
 This artificial liquidation price is calculated as:
@@ -119,14 +119,14 @@ Possible values are any floats between 0.0 and 0.99
 **ex:** If a trade is entered at a price of 10 coin/USDT, and the liquidation price of this trade is 8 coin/USDT, then with `liquidation_buffer` set to `0.05` the minimum stoploss for this trade would be $8 + ((10 - 8) * 0.05) = 8 + 0.1 = 8.1$
 
 !!! Danger "A `liquidation_buffer` of 0.0, or a low `liquidation_buffer` is likely to result in liquidations, and liquidation fees"
-    Currently Freqtrade is able to calculate liquidation prices, but does not calculate liquidation fees. Setting your `liquidation_buffer` to 0.0, or using a low `liquidation_buffer` could result in your positions being liquidated. Freqtrade does not track liquidation fees, so liquidations will result in inaccurate profit/loss results for your bot. If you use a low `liquidation_buffer`, it is recommended to use `stoploss_on_exchange` if your exchange supports this.
+Currently Freqtrade is able to calculate liquidation prices, but does not calculate liquidation fees. Setting your `liquidation_buffer` to 0.0, or using a low `liquidation_buffer` could result in your positions being liquidated. Freqtrade does not track liquidation fees, so liquidations will result in inaccurate profit/loss results for your bot. If you use a low `liquidation_buffer`, it is recommended to use `stoploss_on_exchange` if your exchange supports this.
 
 ## Unavailable funding rates
 
 For futures data, exchanges commonly provide the futures candles, the marks, and the funding rates. However, it is common that whilst candles and marks might be available, the funding rates are not. This can affect backtesting timeranges, i.e. you may only be able to test recent timeranges and not earlier, experiencing the `No data found. Terminating.` error. To get around this, add the `futures_funding_rate` config option as listed in [configuration.md](configuration.md), and it is recommended that you set this to `0`, unless you know a given specific funding rate for your pair, exchange and timerange. Setting this to anything other than `0` can have drastic effects on your profit calculations within strategy, e.g. within the `custom_exit`, `custom_stoploss`, etc functions.
 
 !!! Warning "This will mean your backtests are inaccurate."
-    This will not overwrite funding rates that are available from the exchange, but bear in mind that setting a false funding rate will mean backtesting results will be inaccurate for historical timeranges where funding rates are not available.
+This will not overwrite funding rates that are available from the exchange, but bear in mind that setting a false funding rate will mean backtesting results will be inaccurate for historical timeranges where funding rates are not available.
 
 ### Developer
 

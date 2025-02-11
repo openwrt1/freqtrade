@@ -7,16 +7,16 @@ Stoploss calculations do include fees, so a stoploss of -10% is placed exactly 1
 Most of the strategy files already include the optimal `stoploss` value.
 
 !!! Info
-    All stoploss properties mentioned in this file can be set in the Strategy, or in the configuration.  
-    <ins>Configuration values will override the strategy values.</ins>
+All stoploss properties mentioned in this file can be set in the Strategy, or in the configuration.  
+ <ins>Configuration values will override the strategy values.</ins>
 
 ## Stop Loss On-Exchange/Freqtrade
 
-Those stoploss modes can be *on exchange* or *off exchange*.
+Those stoploss modes can be _on exchange_ or _off exchange_.
 
 These modes can be configured with these values:
 
-``` python
+```python
     'emergency_exit': 'market',
     'stoploss_on_exchange': False
     'stoploss_on_exchange_interval': 60,
@@ -26,38 +26,38 @@ These modes can be configured with these values:
 Stoploss on exchange is only supported for the following exchanges, and not all exchanges support both stop-limit and stop-market.
 The Order-type will be ignored if only one mode is available.
 
-| Exchange | stop-loss type |
-|----------|-------------|
-| Binance  | limit |
-| Binance Futures  | market, limit |
-| Bingx    | market, limit |
-| HTX      | limit |
-| kraken   | market, limit |
-| Gate     | limit |
-| Okx      | limit |
-| Kucoin   | stop-limit, stop-market|
-| Hyperliquid (futures only)   | limit |
+| Exchange                   | stop-loss type          |
+| -------------------------- | ----------------------- |
+| Binance                    | limit                   |
+| Binance Futures            | market, limit           |
+| Bingx                      | market, limit           |
+| HTX                        | limit                   |
+| kraken                     | market, limit           |
+| Gate                       | limit                   |
+| Okx                        | limit                   |
+| Kucoin                     | stop-limit, stop-market |
+| Hyperliquid (futures only) | limit                   |
 
 !!! Note "Tight stoploss"
-    <ins>Do not set too low/tight stoploss value when using stop loss on exchange!</ins>  
-    If set to low/tight you will have greater risk of missing fill on the order and stoploss will not work.
+<ins>Do not set too low/tight stoploss value when using stop loss on exchange!</ins>  
+ If set to low/tight you will have greater risk of missing fill on the order and stoploss will not work.
 
 ### stoploss_on_exchange and stoploss_on_exchange_limit_ratio
 
 Enable or Disable stop loss on exchange.
-If the stoploss is *on exchange* it means a stoploss limit order is placed on the exchange immediately after buy order fills. This will protect you against sudden crashes in market, as the order execution happens purely within the exchange, and has no potential network overhead.
+If the stoploss is _on exchange_ it means a stoploss limit order is placed on the exchange immediately after buy order fills. This will protect you against sudden crashes in market, as the order execution happens purely within the exchange, and has no potential network overhead.
 
 If `stoploss_on_exchange` uses limit orders, the exchange needs 2 prices, the stoploss_price and the Limit price.  
 `stoploss` defines the stop-price where the limit order is placed - and limit should be slightly below this.  
-If an exchange supports both limit and market stoploss orders, then the value of `stoploss` will be used to determine the stoploss type.  
+If an exchange supports both limit and market stoploss orders, then the value of `stoploss` will be used to determine the stoploss type.
 
 Calculation example: we bought the asset at 100\$.  
-Stop-price is 95\$, then limit would be `95 * 0.99 = 94.05$` - so the limit order fill can happen between 95$ and 94.05$.  
+Stop-price is 95\$, then limit would be `95 * 0.99 = 94.05$` - so the limit order fill can happen between 95$ and 94.05$.
 
 For example, assuming the stoploss is on exchange, and trailing stoploss is enabled, and the market is going up, then the bot automatically cancels the previous stoploss order and puts a new one with a stop value higher than the previous stoploss order.
 
 !!! Note
-    If `stoploss_on_exchange` is enabled and the stoploss is cancelled manually on the exchange, then the bot will create a new stoploss order.
+If `stoploss_on_exchange` is enabled and the stoploss is cancelled manually on the exchange, then the bot will create a new stoploss order.
 
 ### stoploss_on_exchange_interval
 
@@ -69,9 +69,9 @@ This same logic will reapply a stoploss order on the exchange should you cancel 
 ### stoploss_price_type
 
 !!! Warning "Only applies to futures"
-    `stoploss_price_type` only applies to futures markets (on exchanges where it's available).
-    Freqtrade will perform a validation of this setting on startup, failing to start if an invalid setting for your exchange has been selected.
-    Supported price types are gonna differs between each exchanges. Please check with your exchange on which price types it supports.
+`stoploss_price_type` only applies to futures markets (on exchanges where it's available).
+Freqtrade will perform a validation of this setting on startup, failing to start if an invalid setting for your exchange has been selected.
+Supported price types are gonna differs between each exchanges. Please check with your exchange on which price types it supports.
 
 Stoploss on exchange on futures markets can trigger on different price types.
 The naming for these prices in exchange terminology often varies, but is usually something around "last" (or "contract price" ), "mark" and "index".
@@ -93,7 +93,7 @@ The below is the default which is used if not changed in strategy or configurati
 
 Example from strategy file:
 
-``` python
+```python
 order_types = {
     "entry": "limit",
     "exit": "limit",
@@ -117,26 +117,26 @@ At this stage the bot contains the following stoploss support modes:
 
 ### Static Stop Loss
 
-This is very simple, you define a stop loss of x (as a ratio of price, i.e. x * 100% of price). This will try to sell the asset once the loss exceeds the defined loss.
+This is very simple, you define a stop loss of x (as a ratio of price, i.e. x \* 100% of price). This will try to sell the asset once the loss exceeds the defined loss.
 
 Example of stop loss:
 
-``` python
+```python
     stoploss = -0.10
 ```
 
 For example, simplified math:
 
-* the bot buys an asset at a price of 100$
-* the stop loss is defined at -10%
-* the stop loss would get triggered once the asset drops below 90$
+- the bot buys an asset at a price of 100$
+- the stop loss is defined at -10%
+- the stop loss would get triggered once the asset drops below 90$
 
 ### Trailing Stop Loss
 
 The initial value for this is `stoploss`, just as you would define your static Stop loss.
 To enable trailing stoploss:
 
-``` python
+```python
     stoploss = -0.10
     trailing_stop = True
 ```
@@ -145,12 +145,12 @@ This will now activate an algorithm, which automatically moves the stop loss up 
 
 For example, simplified math:
 
-* the bot buys an asset at a price of 100$
-* the stop loss is defined at -10%
-* the stop loss would get triggered once the asset drops below 90$
-* assuming the asset now increases to 102$
-* the stop loss will now be -10% of 102$ = 91.8$
-* now the asset drops in value to 101\$, the stop loss will still be 91.8$ and would trigger at 91.8$.
+- the bot buys an asset at a price of 100$
+- the stop loss is defined at -10%
+- the stop loss would get triggered once the asset drops below 90$
+- assuming the asset now increases to 102$
+- the stop loss will now be -10% of 102$ = 91.8$
+- now the asset drops in value to 101\$, the stop loss will still be 91.8$ and would trigger at 91.8$.
 
 In summary: The stoploss will be adjusted to be always be -10% of the highest observed price.
 
@@ -160,11 +160,11 @@ You could also have a default stop loss when you are in the red with your buy (b
 For example, your default stop loss is -10%, but once you have more than 0% profit (example 0.1%) a different trailing stoploss will be used.
 
 !!! Note
-    If you want the stoploss to only be changed when you break even of making a profit (what most users want) please refer to next section with [offset enabled](#trailing-stop-loss-only-once-the-trade-has-reached-a-certain-offset).
+If you want the stoploss to only be changed when you break even of making a profit (what most users want) please refer to next section with [offset enabled](#trailing-stop-loss-only-once-the-trade-has-reached-a-certain-offset).
 
 Both values require `trailing_stop` to be set to true and `trailing_stop_positive` with a value.
 
-``` python
+```python
     stoploss = -0.10
     trailing_stop = True
     trailing_stop_positive = 0.02
@@ -174,18 +174,18 @@ Both values require `trailing_stop` to be set to true and `trailing_stop_positiv
 
 For example, simplified math:
 
-* the bot buys an asset at a price of 100$
-* the stop loss is defined at -10%
-* the stop loss would get triggered once the asset drops below 90$
-* assuming the asset now increases to 102$
-* the stop loss will now be -2% of 102$ = 99.96$ (99.96$ stop loss will be locked in and will follow asset price increments with -2%)
-* now the asset drops in value to 101\$, the stop loss will still be 99.96$ and would trigger at 99.96$
+- the bot buys an asset at a price of 100$
+- the stop loss is defined at -10%
+- the stop loss would get triggered once the asset drops below 90$
+- assuming the asset now increases to 102$
+- the stop loss will now be -2% of 102$ = 99.96$ (99.96$ stop loss will be locked in and will follow asset price increments with -2%)
+- now the asset drops in value to 101\$, the stop loss will still be 99.96$ and would trigger at 99.96$
 
 The 0.02 would translate to a -2% stop loss.
 Before this, `stoploss` is used for the trailing stoploss.
 
 !!! Tip "Use an offset to change your stoploss"
-    Use `trailing_stop_positive_offset` to ensure that your new trailing stoploss will be in profit by setting `trailing_stop_positive_offset` higher than `trailing_stop_positive`. Your first new stoploss value will then already have locked in profits.
+Use `trailing_stop_positive_offset` to ensure that your new trailing stoploss will be in profit by setting `trailing_stop_positive_offset` higher than `trailing_stop_positive`. Your first new stoploss value will then already have locked in profits.
 
     Example with simplified math:
 
@@ -213,7 +213,7 @@ This option can be used with or without `trailing_stop_positive`, but uses `trai
 
 Configuration (offset is buy-price + 3%):
 
-``` python
+```python
     stoploss = -0.10
     trailing_stop = True
     trailing_stop_positive = 0.02
@@ -223,16 +223,16 @@ Configuration (offset is buy-price + 3%):
 
 For example, simplified math:
 
-* the bot buys an asset at a price of 100$
-* the stop loss is defined at -10%
-* the stop loss would get triggered once the asset drops below 90$
-* stoploss will remain at 90$ unless asset increases to or above the configured offset
-* assuming the asset now increases to 103$ (where we have the offset configured)
-* the stop loss will now be -2% of 103$ = 100.94$
-* now the asset drops in value to 101\$, the stop loss will still be 100.94$ and would trigger at 100.94$
+- the bot buys an asset at a price of 100$
+- the stop loss is defined at -10%
+- the stop loss would get triggered once the asset drops below 90$
+- stoploss will remain at 90$ unless asset increases to or above the configured offset
+- assuming the asset now increases to 103$ (where we have the offset configured)
+- the stop loss will now be -2% of 103$ = 100.94$
+- now the asset drops in value to 101\$, the stop loss will still be 100.94$ and would trigger at 100.94$
 
 !!! Tip
-    Make sure to have this value (`trailing_stop_positive_offset`) lower than minimal ROI, otherwise minimal ROI will apply first and sell the trade.
+Make sure to have this value (`trailing_stop_positive_offset`) lower than minimal ROI, otherwise minimal ROI will apply first and sell the trade.
 
 ## Stoploss and Leverage
 

@@ -11,7 +11,7 @@ All instructions assume that python 3.10+ is installed and available.
 
 First of all clone the repository by running:
 
-``` powershell
+```powershell
 git clone https://github.com/freqtrade/freqtrade.git
 ```
 
@@ -32,11 +32,11 @@ cd freqtrade
 ## Install freqtrade manually
 
 !!! Note "64bit Python version"
-    Please make sure to use 64bit Windows and 64bit Python to avoid problems with backtesting or hyperopt due to the memory constraints 32bit applications have under Windows.
-    32bit python versions are no longer supported under Windows.
+Please make sure to use 64bit Windows and 64bit Python to avoid problems with backtesting or hyperopt due to the memory constraints 32bit applications have under Windows.
+32bit python versions are no longer supported under Windows.
 
 !!! Hint
-    Using the [Anaconda Distribution](https://www.anaconda.com/distribution/) under Windows can greatly help with installation problems. Check out the [Anaconda installation section](installation.md#installation-with-conda) in the documentation for more information.
+Using the [Anaconda Distribution](https://www.anaconda.com/distribution/) under Windows can greatly help with installation problems. Check out the [Anaconda installation section](installation.md#installation-with-conda) in the documentation for more information.
 
 ### Install ta-lib
 
@@ -47,7 +47,7 @@ These Wheels are also used by CI running on windows, and are therefore tested to
 
 Other versions must be downloaded from the above link.
 
-``` powershell
+```powershell
 cd \path\freqtrade
 python -m venv .venv
 .venv\Scripts\activate.ps1
@@ -60,12 +60,12 @@ freqtrade
 ```
 
 !!! Note "Use Powershell"
-    The above installation script assumes you're using powershell on a 64bit windows.
-    Commands for the legacy CMD windows console may differ.
+The above installation script assumes you're using powershell on a 64bit windows.
+Commands for the legacy CMD windows console may differ.
 
 ### Error during installation on Windows
 
-``` bash
+```bash
 error: Microsoft Visual C++ 14.0 is required. Get it with "Microsoft Visual C++ Build Tools": http://landinghub.visualstudio.com/visual-cpp-build-tools
 ```
 

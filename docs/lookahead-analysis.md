@@ -32,7 +32,7 @@ Those are set to avoid users accidentally generating false positives.
 --8<-- "commands/lookahead-analysis.md"
 
 !!! Note ""
-    The above Output was reduced to options `lookahead-analysis` adds on top of regular backtesting commands.
+The above Output was reduced to options `lookahead-analysis` adds on top of regular backtesting commands.
 
 ### Summary
 
@@ -64,9 +64,9 @@ After all signals have been verified or falsified a result-table will be generat
 ### Caveats
 
 - `lookahead-analysis` can only verify / falsify the trades it calculated and verified.
-If the strategy has many different signals / signal types, it's up to you to select appropriate parameters to ensure that all signals have triggered at least once. Not triggered signals will not have been verified.
-This could lead to a false-negative (the strategy will then be reported as non-biased).
+  If the strategy has many different signals / signal types, it's up to you to select appropriate parameters to ensure that all signals have triggered at least once. Not triggered signals will not have been verified.
+  This could lead to a false-negative (the strategy will then be reported as non-biased).
 - `lookahead-analysis` has access to everything that backtesting has too.
-Please don't provoke any configs like enabling position stacking.
-If you decide to do so, then make doubly sure that you won't ever run out of `max_open_trades` amount and neither leftover money in your wallet.
+  Please don't provoke any configs like enabling position stacking.
+  If you decide to do so, then make doubly sure that you won't ever run out of `max_open_trades` amount and neither leftover money in your wallet.
 - In the results table, the `biased_indicators` column will falsely flag FreqAI target indicators defined in `set_freqai_targets()` as biased. These are not biased and can safely be ignored.

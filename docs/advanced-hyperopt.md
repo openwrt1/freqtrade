@@ -11,7 +11,7 @@ For the sample below, you then need to add the command line parameter `--hyperop
 
 A sample of this can be found below, which is identical to the Default Hyperopt loss implementation. A full sample can be found in [userdata/hyperopts](https://github.com/freqtrade/freqtrade/blob/develop/freqtrade/templates/sample_hyperopt_loss.py).
 
-``` python
+```python
 from datetime import datetime
 from typing import Any, Dict
 
@@ -62,24 +62,24 @@ class SuperDuperHyperOptLoss(IHyperOptLoss):
 
 Currently, the arguments are:
 
-* `results`: DataFrame containing the resulting trades.
-    The following columns are available in results (corresponds to the output-file of backtesting when used with `--export trades`):  
-    `pair, profit_ratio, profit_abs, open_date, open_rate, fee_open, close_date, close_rate, fee_close, amount, trade_duration, is_open, exit_reason, stake_amount, min_rate, max_rate, stop_loss_ratio, stop_loss_abs`
-* `trade_count`: Amount of trades (identical to `len(results)`)
-* `min_date`: Start date of the timerange used
-* `min_date`: End date of the timerange used
-* `config`: Config object used (Note: Not all strategy-related parameters will be updated here if they are part of a hyperopt space).
-* `processed`: Dict of Dataframes with the pair as keys containing the data used for backtesting.
-* `backtest_stats`: Backtesting statistics using the same format as the backtesting file "strategy" substructure. Available fields can be seen in `generate_strategy_stats()` in `optimize_reports.py`.
-* `starting_balance`: Starting balance used for backtesting.
+- `results`: DataFrame containing the resulting trades.
+  The following columns are available in results (corresponds to the output-file of backtesting when used with `--export trades`):  
+   `pair, profit_ratio, profit_abs, open_date, open_rate, fee_open, close_date, close_rate, fee_close, amount, trade_duration, is_open, exit_reason, stake_amount, min_rate, max_rate, stop_loss_ratio, stop_loss_abs`
+- `trade_count`: Amount of trades (identical to `len(results)`)
+- `min_date`: Start date of the timerange used
+- `min_date`: End date of the timerange used
+- `config`: Config object used (Note: Not all strategy-related parameters will be updated here if they are part of a hyperopt space).
+- `processed`: Dict of Dataframes with the pair as keys containing the data used for backtesting.
+- `backtest_stats`: Backtesting statistics using the same format as the backtesting file "strategy" substructure. Available fields can be seen in `generate_strategy_stats()` in `optimize_reports.py`.
+- `starting_balance`: Starting balance used for backtesting.
 
 This function needs to return a floating point number (`float`). Smaller numbers will be interpreted as better results. The parameters and balancing for this is up to you.
 
 !!! Note
-    This function is called once per epoch - so please make sure to have this as optimized as possible to not slow hyperopt down unnecessarily.
+This function is called once per epoch - so please make sure to have this as optimized as possible to not slow hyperopt down unnecessarily.
 
 !!! Note "`*args` and `**kwargs`"
-    Please keep the arguments `*args` and `**kwargs` in the interface to allow us to extend this interface in the future.
+Please keep the arguments `*args` and `**kwargs` in the interface to allow us to extend this interface in the future.
 
 ## Overriding pre-defined spaces
 
@@ -140,13 +140,13 @@ class MyAwesomeStrategy(IStrategy):
 ```
 
 !!! Note
-    All overrides are optional and can be mixed/matched as necessary.
+All overrides are optional and can be mixed/matched as necessary.
 
 ### Dynamic parameters
 
 Parameters can also be defined dynamically, but must be available to the instance once the [`bot_start()` callback](strategy-callbacks.md#bot-start) has been called.
 
-``` python
+```python
 
 class MyAwesomeStrategy(IStrategy):
 
@@ -157,7 +157,7 @@ class MyAwesomeStrategy(IStrategy):
 ```
 
 !!! Warning
-    Parameters created this way will not show up in the `list-strategies` parameter count.
+Parameters created this way will not show up in the `list-strategies` parameter count.
 
 ### Overriding Base estimator
 
@@ -197,11 +197,11 @@ class MyAwesomeStrategy(IStrategy):
             from skopt.learning.gaussian_process.kernels import (Matern, ConstantKernel)
             kernel_bounds = (0.0001, 10000)
             kernel = (
-                ConstantKernel(1.0, kernel_bounds) * 
+                ConstantKernel(1.0, kernel_bounds) *
                 Matern(length_scale=np.ones(len(dimensions)), length_scale_bounds=[kernel_bounds for d in dimensions], nu=2.5)
             )
             kernel += (
-                ConstantKernel(1.0, kernel_bounds) * 
+                ConstantKernel(1.0, kernel_bounds) *
                 Matern(length_scale=np.ones(len(dimensions)), length_scale_bounds=[kernel_bounds for d in dimensions], nu=1.5)
             )
 
@@ -209,26 +209,26 @@ class MyAwesomeStrategy(IStrategy):
 ```
 
 !!! Note
-    While custom estimators can be provided, it's up to you as User to do research on possible parameters and analyze / understand which ones should be used.
-    If you're unsure about this, best use one of the Defaults (`"ET"` has proven to be the most versatile) without further parameters.
+While custom estimators can be provided, it's up to you as User to do research on possible parameters and analyze / understand which ones should be used.
+If you're unsure about this, best use one of the Defaults (`"ET"` has proven to be the most versatile) without further parameters.
 
 ## Space options
 
 For the additional spaces, scikit-optimize (in combination with Freqtrade) provides the following space types:
 
-* `Categorical` - Pick from a list of categories (e.g. `Categorical(['a', 'b', 'c'], name="cat")`)
-* `Integer` - Pick from a range of whole numbers (e.g. `Integer(1, 10, name='rsi')`)
-* `SKDecimal` - Pick from a range of decimal numbers with limited precision (e.g. `SKDecimal(0.1, 0.5, decimals=3, name='adx')`). *Available only with freqtrade*.
-* `Real` - Pick from a range of decimal numbers with full precision (e.g. `Real(0.1, 0.5, name='adx')`
+- `Categorical` - Pick from a list of categories (e.g. `Categorical(['a', 'b', 'c'], name="cat")`)
+- `Integer` - Pick from a range of whole numbers (e.g. `Integer(1, 10, name='rsi')`)
+- `SKDecimal` - Pick from a range of decimal numbers with limited precision (e.g. `SKDecimal(0.1, 0.5, decimals=3, name='adx')`). _Available only with freqtrade_.
+- `Real` - Pick from a range of decimal numbers with full precision (e.g. `Real(0.1, 0.5, name='adx')`
 
 You can import all of these from `freqtrade.optimize.space`, although `Categorical`, `Integer` and `Real` are only aliases for their corresponding scikit-optimize Spaces. `SKDecimal` is provided by freqtrade for faster optimizations.
 
-``` python
+```python
 from freqtrade.optimize.space import Categorical, Dimension, Integer, SKDecimal, Real  # noqa
 ```
 
 !!! Hint "SKDecimal vs. Real"
-    We recommend to use `SKDecimal` instead of the `Real` space in almost all cases. While the Real space provides full accuracy (up to ~16 decimal places) - this precision is rarely needed, and leads to unnecessary long hyperopt times.
+We recommend to use `SKDecimal` instead of the `Real` space in almost all cases. While the Real space provides full accuracy (up to ~16 decimal places) - this precision is rarely needed, and leads to unnecessary long hyperopt times.
 
     Assuming the definition of a rather small space (`SKDecimal(0.10, 0.15, decimals=2, name='xxx')`) - SKDecimal will have 5 possibilities (`[0.10, 0.11, 0.12, 0.13, 0.14, 0.15]`).
 

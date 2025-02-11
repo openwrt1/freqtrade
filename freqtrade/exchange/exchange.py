@@ -646,9 +646,13 @@ class Exchange:
         except ccxt.BaseError as e:
             raise TemporaryError(e) from e
 
-    def _load_async_markets(self, reload: bool = False) -> dict[str, Any]:
+    def _load_async_markets(self, reload: bool = False,count: int = 0) -> dict[str, Any]:
         try:
             with self._loop_lock:
+                 # 添加日志记录以检查代理配置
+
+                logger.info(f"Using proxy: {self._api_async.proxies}")
+                # logger.info(f"Using proxy: {vars(self._api_async)}")
                 markets = self.loop.run_until_complete(self._api_reload_markets(reload=reload))
 
             if isinstance(markets, Exception):
@@ -656,7 +660,12 @@ class Exchange:
             return markets
         except asyncio.TimeoutError as e:
             logger.warning("Could not load markets. Reason: %s", e)
+            logger.info(f"Proxy configuration: {self._api_async.proxies}")
             raise TemporaryError from e
+        except TemporaryError as e:
+            logger.warning("_load_async_markets() returned exception: %s. Retrying still for %d times.", e, count)  # noqa: E501
+            logger.info(f"Proxy configuration: {self._api_async.proxies}")
+            raise
 
     def reload_markets(self, force: bool = False, *, load_leverage_tiers: bool = True) -> None:
         """
@@ -676,7 +685,7 @@ class Exchange:
             # on initial load, we retry 3 times to ensure we get the markets
             retries: int = 3 if force else 0
             # Reload async markets, then assign them to sync api
-            self._markets = retrier(self._load_async_markets, retries=retries)(reload=True)
+            self._markets = retrier(self._load_async_markets, retries=retries)(reload=True,count=retries)  # noqa: E501
             self._api.set_markets(self._api_async.markets, self._api_async.currencies)
             # Assign options array, as it contains some temporary information from the exchange.
             self._api.options = self._api_async.options
@@ -2151,48 +2160,56 @@ class Exchange:
         self, order_id: str, pair: str, since: datetime, params: dict | None = None
     ) -> list:
         """
-        Fetch Orders using the "fetch_my_trades" endpoint and filter them by order-id.
-        The "since" argument passed in is coming from the database and is in UTC,
-        as timezone-native datetime object.
-        From the python documentation:
-            > Naive datetime instances are assumed to represent local time
-        Therefore, calling "since.timestamp()" will get the UTC timestamp, after applying the
-        transformation from local timezone to UTC.
-        This works for timezones UTC+ since then the result will contain trades from a few hours
-        instead of from the last 5 seconds, however fails for UTC- timezones,
-        since we're then asking for trades with a "since" argument in the future.
-
-        :param order_id order_id: Order-id as given when creating the order
-        :param pair: Pair the order is for
-        :param since: datetime object of the order creation time. Assumes object is in UTC.
+        获取指定订单的交易记录
+        :param order_id: 订单 ID
+        :param pair: 交易对
+        :param since: 订单创建时间的 datetime 对象，假定为 UTC 时间
+        :param params: 额外的参数
+        :return: 交易记录列表
         """
         if self._config["dry_run"]:
             return []
         if not self.exchange_has("fetchMyTrades"):
             return []
         try:
-            # Allow 5s offset to catch slight time offsets (discovered in #1185)
-            # since needs to be int in milliseconds
+            # 允许 5 秒偏移以捕捉轻微的时间偏移
+            # since 需要以毫秒为单位的整数
             _params = params if params else {}
-            my_trades = self._api.fetch_my_trades(
-                pair,
-                int((since.replace(tzinfo=timezone.utc).timestamp() - 5) * 1000),
-                params=_params,
-            )
-            matched_trades = [trade for trade in my_trades if trade["order"] == order_id]
+            since_ms = int((since.replace(tzinfo=timezone.utc).timestamp() - 5) * 1000)
+            logger.info(f"Fetching trades for pair: {pair} since: {since_ms} ms with params: {_params}")  # noqa: E501
+            my_trades = self._api.fetch_my_trades(pair, since_ms, params=_params)
+            # my_trades = self._api.fetch_my_trades(
+            #     pair,
+            #     int((since.replace(tzinfo=timezone.utc).timestamp() - 5) * 1000),
+            #     params=_params,
+            # )
+            logger.info(f"Fetched {len(my_trades)} trades from exchange")
+            # 记录每个交易的详细信息
+            for trade in my_trades:
+                logger.debug(f"Trade details: {trade}")
+
+            if order_id is not None:
+                matched_trades = [trade for trade in my_trades if trade["order"] == order_id]
+            else:
+                matched_trades = my_trades
 
             self._log_exchange_response("get_trades_for_order", matched_trades)
 
             matched_trades = self._trades_contracts_to_amount(matched_trades)
 
             return matched_trades
+        except ccxt.NetworkError as e:
+            logger.error(f"fetch_my_trades Network error: {e}")
         except ccxt.DDoSProtection as e:
+            logger.error(f"fetch_my_trades DDoSProtection error: {e}")
             raise DDosProtection(e) from e
         except (ccxt.OperationFailed, ccxt.ExchangeError) as e:
+            logger.error(f"fetch_my_trades TemporaryError: {e}")
             raise TemporaryError(
                 f"Could not get trades due to {e.__class__.__name__}. Message: {e}"
             ) from e
         except ccxt.BaseError as e:
+            logger.error(f"fetch_my_trades OperationalException: {e}")
             raise OperationalException(e) from e
 
     def get_order_id_conditional(self, order: CcxtOrder) -> str:

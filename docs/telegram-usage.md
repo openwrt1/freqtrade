@@ -11,19 +11,19 @@ Start a chat with the [Telegram BotFather](https://telegram.me/BotFather)
 
 Send the message `/newbot`.
 
-*BotFather response:*
+_BotFather response:_
 
 > Alright, a new bot. How are we going to call it? Please choose a name for your bot.
 
 Choose the public name of your bot (e.x. `Freqtrade bot`)
 
-*BotFather response:*
+_BotFather response:_
 
 > Good. Now let's choose a username for your bot. It must end in `bot`. Like this, for example: TetrisBot or tetris_bot.
 
 Choose the name id of your bot and send it to the BotFather (e.g. "`My_own_freqtrade_bot`")
 
-*BotFather response:*
+_BotFather response:_
 
 > Done! Congratulations on your new bot. You will find it at `t.me/yourbots_name_bot`. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
 
@@ -51,12 +51,12 @@ While "chat_id" is still required, it doesn't need to be set to this particular 
 
 The response will also contain the "topic_id" if necessary - both in a format ready to copy/paste into your configuration.
 
-``` json
- {
-    "enabled": true,
-    "token": "********",
-    "chat_id": "-1001332619709",
-    "topic_id": "122"
+```json
+{
+  "enabled": true,
+  "token": "********",
+  "chat_id": "-1001332619709",
+  "topic_id": "122"
 }
 ```
 
@@ -67,7 +67,7 @@ For the Freqtrade configuration, you can then use the full value (including `-` 
 ```
 
 !!! Warning "Using telegram groups"
-    When using telegram groups, you're giving every member of the telegram group access to your freqtrade bot and to all commands possible via telegram. Please make sure that you can trust everyone in the telegram group to avoid unpleasant surprises.
+When using telegram groups, you're giving every member of the telegram group access to your freqtrade bot and to all commands possible via telegram. Please make sure that you can trust everyone in the telegram group to avoid unpleasant surprises.
 
 ##### Group Topic ID
 
@@ -86,13 +86,13 @@ Similar to the group-id - you can use `/tg_info` from the topic/thread to get th
 Freqtrade provides means to control the verbosity of your telegram bot.
 Each setting has the following possible values:
 
-* `on` - Messages will be sent, and user will be notified.
-* `silent` - Message will be sent, Notification will be without sound / vibration.
-* `off` - Skip sending a message-type all together.
+- `on` - Messages will be sent, and user will be notified.
+- `silent` - Message will be sent, Notification will be without sound / vibration.
+- `off` - Skip sending a message-type all together.
 
 Example configuration showing the different settings:
 
-``` json
+```json
 "telegram": {
     "enabled": true,
     "token": "your_telegram_token",
@@ -131,16 +131,16 @@ Example configuration showing the different settings:
 },
 ```
 
-* `entry` notifications are sent when the order is placed, while `entry_fill` notifications are sent when the order is filled on the exchange.  
-* `exit` notifications are sent when the order is placed, while `exit_fill` notifications are sent when the order is filled on the exchange.  
-    Exit messages (`exit` and `exit_fill`) can be further controlled at individual exit reasons level, with the specific exit reason as the key. the default for all exit reasons is `on` - but can be configured via special `*` key - which will act as a wildcard for all exit reasons that are not explicitly defined.
-* `*_fill` notifications are off by default and must be explicitly enabled.  
-* `protection_trigger` notifications are sent when a protection triggers and `protection_trigger_global` notifications trigger when global protections are triggered.  
-* `strategy_msg` - Receive notifications from the strategy, sent via `self.dp.send_msg()` from the strategy [more details](strategy-customization.md#send-notification).  
-* `show_candle` - show candle values as part of entry/exit messages. Only possible values are `"ohlc"` or `"off"`.  
-* `balance_dust_level` will define what the `/balance` command takes as "dust" - Currencies with a balance below this will be shown.  
-* `allow_custom_messages` completely disable strategy messages.  
-* `reload` allows you to disable reload-buttons on selected messages.  
+- `entry` notifications are sent when the order is placed, while `entry_fill` notifications are sent when the order is filled on the exchange.
+- `exit` notifications are sent when the order is placed, while `exit_fill` notifications are sent when the order is filled on the exchange.  
+   Exit messages (`exit` and `exit_fill`) can be further controlled at individual exit reasons level, with the specific exit reason as the key. the default for all exit reasons is `on` - but can be configured via special `*` key - which will act as a wildcard for all exit reasons that are not explicitly defined.
+- `*_fill` notifications are off by default and must be explicitly enabled.
+- `protection_trigger` notifications are sent when a protection triggers and `protection_trigger_global` notifications trigger when global protections are triggered.
+- `strategy_msg` - Receive notifications from the strategy, sent via `self.dp.send_msg()` from the strategy [more details](strategy-customization.md#send-notification).
+- `show_candle` - show candle values as part of entry/exit messages. Only possible values are `"ohlc"` or `"off"`.
+- `balance_dust_level` will define what the `/balance` command takes as "dust" - Currencies with a balance below this will be shown.
+- `allow_custom_messages` completely disable strategy messages.
+- `reload` allows you to disable reload-buttons on selected messages.
 
 ## Create a custom keyboard (command shortcut buttons)
 
@@ -159,7 +159,7 @@ The default custom keyboard looks like this.
 
 You can create your own keyboard in `config.json`:
 
-``` json
+```json
 "telegram": {
       "enabled": true,
       "token": "your_telegram_token",
@@ -173,7 +173,7 @@ You can create your own keyboard in `config.json`:
 ```
 
 !!! Note "Supported Commands"
-    Only the following commands are allowed. Command arguments are not supported!
+Only the following commands are allowed. Command arguments are not supported!
 
     `/start`, `/stop`, `/status`, `/status table`, `/trades`, `/profit`, `/performance`, `/daily`, `/stats`, `/count`, `/locks`, `/balance`, `/stopentry`, `/reload_config`, `/show_config`, `/logs`, `/whitelist`, `/blacklist`, `/edge`, `/help`, `/version`, `/marketdir`
 
@@ -183,8 +183,9 @@ Per default, the Telegram bot shows predefined commands. Some commands
 are only available by sending them to the bot. The table below list the
 official commands. You can ask at any moment for help with `/help`.
 
-|  Command | Description |
-|----------|-------------|
+| Command | Description |
+| ------- | ----------- |
+
 | **System commands**
 | `/start` | Starts the trader
 | `/stop` | Stops the trader
@@ -197,7 +198,7 @@ official commands. You can ask at any moment for help with `/help`.
 | **Status** |
 | `/status` | Lists all open trades
 | `/status <trade_id>` | Lists one or more specific trade. Separate multiple <trade_id> with a blank space.
-| `/status table` | List all open trades in a table format. Pending buy orders are marked with an asterisk (*) Pending sell orders are marked with a double asterisk (**)
+| `/status table` | List all open trades in a table format. Pending buy orders are marked with an asterisk (\*) Pending sell orders are marked with a double asterisk (**)
 | `/order <trade_id>` | Lists orders of one or more specific trade. Separate multiple <trade_id> with a blank space.
 | `/trades [limit]` | List all recently closed trades in a table format.
 | `/count` | Displays number of trades used and available
@@ -206,7 +207,7 @@ official commands. You can ask at any moment for help with `/help`.
 | `/marketdir [long | short | even | none]` | Updates the user managed variable that represents the current market direction. If no direction is provided, the currently set direction will be displayed.
 | `/list_custom_data <trade_id> [key]` | List custom_data for Trade ID & Key combination. If no Key is supplied it will list all key-value pairs found for that Trade ID.
 | **Modify Trade states** |
-| `/forceexit <trade_id> | /fx <tradeid>` | Instantly exits the given trade  (Ignoring `minimum_roi`).
+| `/forceexit <trade_id> | /fx <tradeid>` | Instantly exits the given trade (Ignoring `minimum_roi`).
 | `/forceexit all | /fx all` | Instantly exits all open trades (Ignoring `minimum_roi`).
 | `/fx` | alias for `/forceexit`
 | `/forcelong <pair> [rate]` | Instantly buys the given pair. Rate is optional and only applies to limit orders. (`force_entry_enable` must be set to True)
@@ -214,7 +215,7 @@ official commands. You can ask at any moment for help with `/help`.
 | `/delete <trade_id>` | Delete a specific trade from the Database. Tries to close open orders. Requires manual handling of this trade on the exchange.
 | `/reload_trade <trade_id>` | Reload a trade from the Exchange. Only works in live, and can potentially help recover a trade that was manually sold on the exchange.
 | `/cancel_open_order <trade_id> | /coo <trade_id>` | Cancel an open order for a trade.
-| **Metrics** |
+| **Metrics\*\* |
 | `/profit [<n>]` | Display a summary of your profit/loss from close trades and some stats about your performance, over the last n days (all trades by default)
 | `/performance` | Show performance of each finished trade grouped by pair
 | `/balance` | Show bot managed balance per currency
@@ -239,8 +240,7 @@ Below, example of Telegram message you will receive for each command.
 
 ### /stop
 
-> `Stopping trader ...`
-> **Status:** `stopped`
+> `Stopping trader ...` > **Status:** `stopped`
 
 ### /stopbuy
 
@@ -254,7 +254,7 @@ Once all positions are sold, run `/stop` to completely stop the bot.
 `/reload_config` resets "max_open_trades" to the value set in the configuration and resets this command.
 
 !!! Warning
-    The stop-buy signal is ONLY active while the bot is running, and is not persisted anyway, so restarting the bot will cause this to reset.
+The stop-buy signal is ONLY active while the bot is running, and is not persisted anyway, so restarting the bot will cause this to reset.
 
 ### /status
 
@@ -270,7 +270,7 @@ Enter Tag is configurable via Strategy.
 > **Open Rate:** `0.00007489`  
 > **Current Rate:** `0.00007489`  
 > **Unrealized Profit:** `12.95%`  
-> **Stoploss:** `0.00007389 (-0.02%)`  
+> **Stoploss:** `0.00007389 (-0.02%)`
 
 ### /status table
 
@@ -298,12 +298,12 @@ current    max
 Return a summary of your profit/loss and performance.
 
 > **ROI:** Close trades  
->   ∙ `0.00485701 BTC (2.2%) (15.2 Σ%)`  
->   ∙ `62.968 USD`  
+>  ∙ `0.00485701 BTC (2.2%) (15.2 Σ%)`  
+>  ∙ `62.968 USD`  
 > **ROI:** All trades  
->   ∙ `0.00255280 BTC (1.5%) (6.43 Σ%)`  
->   ∙ `33.095 EUR`  
->  
+>  ∙ `0.00255280 BTC (1.5%) (6.43 Σ%)`  
+>  ∙ `33.095 EUR`
+>
 > **Total Trade Count:** `138`  
 > **Bot started:** `2022-07-11 18:40:44`  
 > **First Trade opened:** `3 days ago`  
@@ -315,7 +315,7 @@ Return a summary of your profit/loss and performance.
 > **Win / Loss:** `102 / 36`  
 > **Winrate:** `73.91%`  
 > **Expectancy (Ratio):** `4.87 (1.66)`  
-> **Max Drawdown:** `9.23% (0.01255 BTC)`  
+> **Max Drawdown:** `9.23% (0.01255 BTC)`
 
 The relative profit of `1.2%` is the average profit per trade.  
 The relative profit of `15.2 Σ%` is be based on the starting capital - so in this case, the starting capital was `0.00485701 * 1.152 = 0.00738 BTC`.  
@@ -324,15 +324,15 @@ The relative profit of `15.2 Σ%` is be based on the starting capital - so in th
 **Expectancy** corresponds to the average return per currency unit at risk, i.e. the winrate and the risk-reward ratio (the average gain of winning trades compared to the average loss of losing trades).  
 **Expectancy Ratio** is expected profit or loss of a subsequent trade based on the performance of all past trades.  
 **Max drawdown** corresponds to the backtesting metric `Absolute Drawdown (Account)` - calculated as `(Absolute Drawdown) / (DrawdownHigh + startingBalance)`.  
-**Bot started date** will refer to the date the bot was first started. For older bots, this will default to the first trade's open date.  
+**Bot started date** will refer to the date the bot was first started. For older bots, this will default to the first trade's open date.
 
 ### /forceexit <trade_id>
 
 > **BINANCE:** Exiting BTC/LTC with limit `0.01650000 (profit: ~-4.07%, -0.00008168)`
 
 !!! Tip
-    You can get a list of all open trades by calling `/forceexit` without parameter, which will show a list of buttons to simply exit a trade.
-    This command has an alias in `/fx` - which has the same capabilities, but is faster to type in "emergency" situations.
+You can get a list of all open trades by calling `/forceexit` without parameter, which will show a list of buttons to simply exit a trade.
+This command has an alias in `/fx` - which has the same capabilities, but is faster to type in "emergency" situations.
 
 ### /forcelong <pair> [rate] | /forceshort <pair> [rate]
 
@@ -352,13 +352,15 @@ Note that for this to work, `force_entry_enable` needs to be set to true.
 ### /performance
 
 Return the performance of each crypto-currency the bot has sold.
-> Performance:  
-> 1. `RCN/BTC 0.003 BTC (57.77%) (1)`  
-> 2. `PAY/BTC 0.0012 BTC (56.91%) (1)`  
-> 3. `VIB/BTC 0.0011 BTC (47.07%) (1)`  
-> 4. `SALT/BTC 0.0010 BTC (30.24%) (1)`  
+
+> Performance:
+>
+> 1. `RCN/BTC 0.003 BTC (57.77%) (1)`
+> 2. `PAY/BTC 0.0012 BTC (56.91%) (1)`
+> 3. `VIB/BTC 0.0011 BTC (47.07%) (1)`
+> 4. `SALT/BTC 0.0010 BTC (30.24%) (1)`
 > 5. `STORJ/BTC 0.0009 BTC (27.24%) (1)`  
-> ...  
+>    ...
 
 The relative performance is calculated against the total investment in the currency, aggregating all filled entries for the currency.
 
@@ -369,12 +371,12 @@ Return the balance of all crypto-currency your have on the exchange.
 > **Currency:** BTC  
 > **Available:** 3.05890234  
 > **Balance:** 3.05890234  
-> **Pending:** 0.0  
+> **Pending:** 0.0
 >
 > **Currency:** CVC  
 > **Available:** 86.64180098  
 > **Balance:** 86.64180098  
-> **Pending:** 0.0  
+> **Pending:** 0.0
 
 ### /daily <n>
 
@@ -411,6 +413,7 @@ Per default `/monthly` will return the 6 last months, including the current mont
 if for `/monthly 3`:
 
 > **Monthly Profit over the last 3 months:**
+
 ```
 Month (count)  Profit BTC      Profit USD    Profit %
 -------------  --------------  ------------    ----------
@@ -434,13 +437,14 @@ Also supports multiple pairs, separated by a space.
 Use `/reload_config` to reset the blacklist.
 
 > Using blacklist `StaticPairList` with 2 pairs  
->`DODGE/BTC`, `HOT/BTC`.  
+> `DODGE/BTC`, `HOT/BTC`.
 
 ### /edge
 
 Shows pairs validated by Edge along with their corresponding win-rate, expectancy and stoploss values.
 
 > **Edge only validated following pairs:**
+
 ```
 Pair        Winrate    Expectancy    Stoploss
 --------  ---------  ------------  ----------
@@ -473,8 +477,8 @@ Currently set marketdirection: even
 You can use the market direction in your strategy via `self.market_direction`.
 
 !!! Warning "Bot restarts"
-    Please note that the market direction is not persisted, and will be reset after a bot restart/reload.
+Please note that the market direction is not persisted, and will be reset after a bot restart/reload.
 
 !!! Danger "Backtesting"
-    As this value/variable is intended to be changed manually in dry/live trading.
-    Strategies using `market_direction` will probably not produce reliable, reproducible results (changes to this variable will not be reflected for backtesting). Use at your own risk.
+As this value/variable is intended to be changed manually in dry/live trading.
+Strategies using `market_direction` will probably not produce reliable, reproducible results (changes to this variable will not be reflected for backtesting). Use at your own risk.

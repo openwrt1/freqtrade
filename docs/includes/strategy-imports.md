@@ -6,7 +6,7 @@ By default, we recommend the following imports as a base line for your strategy:
 This will cover all imports necessary for freqtrade functions to work.
 Obviously you can add more imports as needed for your strategy.
 
-``` python
+```python
 # flake8: noqa: F401
 # isort: skip_file
 # --- Do not remove these imports ---
@@ -18,7 +18,7 @@ from typing import Dict, Optional, Union, Tuple
 
 from freqtrade.strategy import (
     IStrategy,
-    Trade, 
+    Trade,
     Order,
     PairLocks,
     informative,  # @informative decorator
